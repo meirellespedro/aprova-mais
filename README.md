@@ -2,11 +2,10 @@
 
 Plataforma web que transforma uma rotina de estudos solta em **preparação guiada**: planejamento semanal, blocos de foco (Pomodoro), mini simulados, **correção de redação por IA** e leitura de progresso — tudo no mesmo fluxo, sem trocar de ferramenta.
 
-> **Demo ao vivo:** _em breve_ · **Código:** este repositório
+> **Demo ao vivo:** [aprova-mais.pages.dev](https://aprova-mais.pages.dev) · **Código:** este repositório
 
 ![Dashboard do Aprova+ — resumo da semana, prioridade de estudo e métricas de progresso](docs/preview.jpg)
 
-<!-- Após o deploy (Vercel / Netlify / GitHub Pages), troque "em breve" pelo link real. -->
 <!-- Dica: um GIF curto do dashboard em uso converte ainda mais que o print. -->
 
 ---
@@ -105,7 +104,7 @@ Depois acesse `http://localhost:8000`.
 
 ## Roadmap
 
-- [ ] Deploy público (Vercel / Netlify / GitHub Pages)
+- [x] Deploy público (Cloudflare Pages) — [aprova-mais.pages.dev](https://aprova-mais.pages.dev)
 - [ ] Auditoria Lighthouse documentada (performance + acessibilidade)
 - [ ] `og-image` em PNG 1200×630 para compartilhamento social
 - [ ] Tipagem com JSDoc ou migração para TypeScript
