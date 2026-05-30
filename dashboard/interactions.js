@@ -18,7 +18,6 @@ import {
   getMockQuestions,
   isMockActive,
   normalizeTrackId,
-  registerActivity,
   registerStudyMinutes,
   saveState,
   setActiveTrailLesson,
@@ -298,7 +297,6 @@ const handleTaskSubmit = (event) => {
     createdAt: new Date().toISOString(),
   });
 
-  registerActivity(`Adicionou a tarefa "${title}" para ${getTrackMeta(track).shortLabel}.`);
   saveState();
   dom.taskForm.reset();
   dom.taskForm.elements.subject.value = subject;
@@ -335,7 +333,6 @@ const handleSessionSubmit = (event) => {
     state.sessions = state.sessions.map((session) =>
       session.id === sessionId ? { ...session, title, subject, track, day, start, end } : session
     );
-    registerActivity(`Atualizou a sessão "${title}" em ${getTrackMeta(track).shortLabel}.`);
     showToast("Sessão atualizada", `${title} foi ajustada no planner.`);
   } else {
     state.sessions.push({
@@ -347,7 +344,6 @@ const handleSessionSubmit = (event) => {
       start,
       end,
     });
-    registerActivity(`Planejou a sessão "${title}" para ${FULL_DAY_LABELS[day]} em ${getTrackMeta(track).shortLabel}.`);
     showToast("Sessão criada", `${title} foi adicionada para ${FULL_DAY_LABELS[day]}.`);
   }
 
@@ -379,7 +375,6 @@ const handleTaskAction = (button) => {
       }
 
       delete task.completedAt;
-      registerActivity(`Reabriu a tarefa "${task.title}".`);
       showToast("Tarefa reaberta", `${task.title} voltou para sua fila de execução.`, "info");
     }
 
@@ -390,7 +385,6 @@ const handleTaskAction = (button) => {
 
   if (button.hasAttribute("data-task-delete")) {
     state.tasks = state.tasks.filter((item) => item.id !== taskId);
-    registerActivity(`Removeu a tarefa "${task.title}".`);
     saveState();
     renderDashboard();
     showToast("Tarefa removida", `${task.title} saiu da sua lista.`, "warning");
@@ -413,7 +407,6 @@ const handleSessionAction = (button) => {
 
   if (button.hasAttribute("data-session-delete")) {
     state.sessions = state.sessions.filter((item) => item.id !== sessionId);
-    registerActivity(`Excluiu a sessão "${session.title}".`);
     saveState();
     renderDashboard();
     showToast("Sessão excluída", `${session.title} foi removida do planner.`, "warning");

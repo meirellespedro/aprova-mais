@@ -789,11 +789,14 @@ export const renderPomodoro = () => {
   dom.pomodoroMinutes.textContent = `${state.pomodoro.totalFocusMinutes} min`;
 
   if (state.pomodoro.isRunning) {
+    dom.pomodoroStatus.hidden = false;
     dom.pomodoroStatus.textContent = "Foco em andamento";
   } else if (remainingSeconds !== state.pomodoro.durationSeconds) {
+    dom.pomodoroStatus.hidden = false;
     dom.pomodoroStatus.textContent = "Pausado";
   } else {
-    dom.pomodoroStatus.textContent = "Pronto para iniciar";
+    dom.pomodoroStatus.hidden = true;
+    dom.pomodoroStatus.textContent = "";
   }
 
   dom.pomodoroButtons.forEach((button) => {
@@ -911,7 +914,10 @@ export const renderMock = () => {
   }
 
   if (!active) {
-    if (dom.mockProgress) dom.mockProgress.textContent = "Pronto para começar";
+    if (dom.mockProgress) {
+      dom.mockProgress.hidden = true;
+      dom.mockProgress.textContent = "";
+    }
     updateMockTimer();
     return;
   }
@@ -926,6 +932,7 @@ export const renderMock = () => {
   const hasSelection = typeof selectedIndex === "number";
 
   if (dom.mockProgress) {
+    dom.mockProgress.hidden = false;
     dom.mockProgress.textContent = submitted ? "Simulado finalizado" : `Questão ${idx + 1} de ${total}`;
   }
 
@@ -1564,21 +1571,10 @@ export const renderAnalytics = () => {
     `;
   }).join("");
 
-  dom.heatmapSummary.textContent = `${activeDays} dias com atividade nas últimas 4 semanas`;
-
-  dom.activityFeed.innerHTML = state.activity.length
-    ? state.activity
-        .slice(0, 5)
-        .map(
-          (item) => `
-            <li>
-              <strong>${escapeHTML(item.message)}</strong>
-              <small>${formatRelativeTime(item.timestamp)}</small>
-            </li>
-          `
-        )
-        .join("")
-    : `<li><strong>Sem atividade recente.</strong><small>Use o dashboard para gerar histórico.</small></li>`;
+  dom.heatmapSummary.textContent =
+    activeDays === 0
+      ? "Comece a estudar para ativar seu mapa de constância"
+      : `${activeDays} ${activeDays === 1 ? "dia" : "dias"} com atividade nas últimas 4 semanas`;
 };
 
 export const renderDashboard = () => {

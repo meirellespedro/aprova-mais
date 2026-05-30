@@ -152,7 +152,6 @@ export const dom = {
   mockHistory: document.querySelector("[data-mock-history]"),
   heatmap: document.querySelector("[data-heatmap]"),
   heatmapSummary: document.querySelector("[data-heatmap-summary]"),
-  activityFeed: document.querySelector("[data-activity-feed]"),
   toastStack: document.querySelector("[data-toast-stack]"),
   navLinks: [...document.querySelectorAll('.dashboard-nav a[href^="#"], .dashboard-mobile-nav a[href^="#"]')],
   scrollButtons: [...document.querySelectorAll("[data-scroll-target]")],

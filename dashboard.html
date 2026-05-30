@@ -122,13 +122,18 @@
       </nav>
 
       <div class="sidebar-footer">
-        <button class="btn btn-secondary btn-block" type="button" data-edit-plan>Editar meu plano</button>
-        <div class="sidebar-data-row">
-          <button class="btn btn-ghost" type="button" data-export-progress>Exportar</button>
-          <button class="btn btn-ghost" type="button" data-import-progress>Importar</button>
-          <input type="file" accept="application/json,.json" data-import-file hidden />
+        <button class="btn btn-primary btn-block" type="button" data-edit-plan>Editar meu plano</button>
+
+        <div class="sidebar-data">
+          <span class="sidebar-data-label">Seus dados</span>
+          <div class="sidebar-data-row">
+            <button class="btn btn-ghost" type="button" data-export-progress>Exportar</button>
+            <button class="btn btn-ghost" type="button" data-import-progress>Importar</button>
+            <input type="file" accept="application/json,.json" data-import-file hidden />
+          </div>
         </div>
-        <a class="btn btn-secondary btn-block" href="index.html">Voltar para o início</a>
+
+        <a class="btn btn-ghost btn-block" href="index.html">Voltar para o início</a>
         <button class="btn btn-ghost btn-block sidebar-reset" type="button" data-reset-progress>Recomeçar do zero</button>
       </div>
     </aside>
@@ -506,10 +511,9 @@
             <article class="module-card surface-card pomodoro-card" id="focus">
               <div class="module-head">
                 <div>
-                  <span class="module-kicker">Foco do dia</span>
                   <h3>Bloco de estudo guiado</h3>
                 </div>
-                <span class="module-badge" data-pomodoro-status>Pronto para iniciar</span>
+                <span class="module-badge" data-pomodoro-status hidden></span>
               </div>
 
               <div class="pomodoro-clock" data-pomodoro-time>25:00</div>
@@ -537,7 +541,6 @@
             <article class="module-card surface-card task-card" id="tasks">
               <div class="module-head">
                 <div>
-                  <span class="module-kicker">Plano de estudo</span>
                   <h3>Fila de execução</h3>
                 </div>
                 <span class="module-badge"><strong data-task-completed-count>0</strong>/<span data-task-total-count>0</span> concluídas</span>
@@ -691,7 +694,7 @@
                 <span class="module-kicker">Simulado cronometrado</span>
                 <h3>Treine como na prova</h3>
               </div>
-              <span class="module-badge" data-mock-progress>Pronto para começar</span>
+              <span class="module-badge" data-mock-progress hidden></span>
             </div>
 
             <!-- Tela de início: escolher tamanho e iniciar -->
@@ -875,7 +878,6 @@
             <article class="module-card surface-card weak-points-card" data-weak-points>
               <div class="module-head">
                 <div>
-                  <span class="module-kicker">Desempenho real</span>
                   <h3>Seus pontos fracos</h3>
                 </div>
                 <span class="module-badge" data-weak-accuracy hidden>—</span>
@@ -909,7 +911,6 @@
             <article class="module-card surface-card chart-card">
               <div class="module-head">
                 <div>
-                  <span class="module-kicker">Semana</span>
                   <h3>Evolução da carga</h3>
                 </div>
               </div>
@@ -935,8 +936,7 @@
             <article class="module-card surface-card heatmap-card">
               <div class="module-head">
                 <div>
-                  <span class="module-kicker">Constância</span>
-                  <h3>Mapa de estudo e histórico recente</h3>
+                  <h3>Mapa de estudo</h3>
                 </div>
               </div>
 
@@ -945,7 +945,6 @@
                 <span class="heatmap-legend">Baixa intensidade</span>
                 <span class="heatmap-legend" data-heatmap-summary>Atividade distribuída pelas últimas 4 semanas</span>
               </div>
-              <ul class="activity-feed" data-activity-feed role="list"></ul>
             </article>
           </div>
         </section>

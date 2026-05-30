@@ -452,7 +452,7 @@
   display: flex;
   justify-content: space-between;
   gap: 18px;
-  align-items: flex-start;
+  align-items: center;
   margin-bottom: 18px;
 }
 
@@ -1792,7 +1792,9 @@
 }
 
 .session-card {
-  padding: 14px;
+  display: grid;
+  gap: 12px;
+  padding: 16px;
   border-radius: var(--radius-md);
   border: 1px solid var(--line);
   background: rgba(255, 255, 255, 0.04);
@@ -1811,14 +1813,11 @@
 }
 
 .session-card strong {
-  display: block;
-  margin-bottom: 6px;
   font-size: 14px;
+  line-height: 1.45;
 }
 
 .session-card time {
-  display: block;
-  margin-bottom: 8px;
   color: var(--muted);
   font-size: 12px;
 }
@@ -1828,7 +1827,6 @@
   justify-content: space-between;
   gap: 10px;
   align-items: center;
-  margin-bottom: 10px;
   color: var(--muted-strong);
   font-size: 12px;
 }
@@ -2397,6 +2395,10 @@
   font-size: 14px;
 }
 
+.toast span {
+  line-height: 1.5;
+}
+
 .toast-stack {
   position: fixed;
   right: 18px;
@@ -2409,6 +2411,8 @@
 }
 
 .toast {
+  display: grid;
+  gap: 4px;
   padding: 14px 16px;
   border-radius: var(--radius-lg);
   border: 1px solid var(--line-strong);
@@ -2522,6 +2526,17 @@
     position: relative;
     top: 0;
     min-height: auto;
+    /* no mobile a navegação fica na barra inferior, então a sidebar vira só
+       um menu de conta: manda ela para o fim e deixa o estudo em primeiro plano */
+    order: 1;
+  }
+
+  /* quando o layout vira 1 coluna, os painéis laterais não podem continuar
+     sticky: senão "grudam" no topo e o conteúdo rola atrás (bug no mobile) */
+  .question-bank-filters,
+  .redacao-grader {
+    position: relative;
+    top: 0;
   }
 
   .dashboard-nav ul {
@@ -2542,6 +2557,11 @@
     display: flex;
     flex-direction: column;
     align-items: stretch;
+  }
+
+  /* o pill do cabeçalho de seção não deve esticar na largura toda no mobile */
+  .dashboard-heading .status-pill {
+    align-self: flex-start;
   }
 
   .inline-form,
@@ -2613,6 +2633,14 @@
 }
 
 @media (max-width: 560px) {
+  /* em telas estreitas o título grande quebra em 2 linhas e o badge ficava
+     "flutuando" no meio: empilha título → badge, alinhados à esquerda */
+  .module-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
   .topbar-status {
     width: 100%;
   }
@@ -2761,7 +2789,13 @@ body.is-onboarding {
 .sidebar-reset {
   margin-top: var(--space-2);
   font-size: 13px;
-  color: var(--muted);
+  color: var(--danger);
+}
+
+.sidebar-reset:hover,
+.sidebar-reset:focus-visible {
+  background: rgba(210, 75, 62, 0.12);
+  color: var(--danger);
 }
 
 @media (max-width: 560px) {
@@ -3409,6 +3443,19 @@ body.is-onboarding {
 }
 
 /* Linha de backup (exportar/importar) na sidebar */
+.sidebar-data {
+  display: grid;
+  gap: 8px;
+}
+
+.sidebar-data-label {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--muted);
+}
+
 .sidebar-data-row {
   display: flex;
   gap: var(--space-2);
@@ -3417,6 +3464,7 @@ body.is-onboarding {
 .sidebar-data-row .btn {
   flex: 1;
   font-size: 13px;
+  min-height: 44px;
 }
 
 /* ===== Evolução do acerto (mini-gráfico) ===== */
