@@ -204,10 +204,6 @@ export const renderStrategy = () => {
     dom.topbarStatusCopy.textContent = activeTrack.topbarCopy;
   }
 
-  if (dom.currentTrackChip) {
-    dom.currentTrackChip.textContent = activeTrack.chip;
-  }
-
   if (dom.trackOverview) {
     dom.trackOverview.innerHTML = overviewCards
       .map(
@@ -242,10 +238,6 @@ export const renderStrategy = () => {
         `
       )
       .join("");
-  }
-
-  if (dom.nextMilestoneChip) {
-    dom.nextMilestoneChip.textContent = nextMilestone ? `${nextMilestone.eyebrow} | ${nextMilestone.dateLabel}` : "Próximo marco";
   }
 
   if (dom.nextMilestoneTitle) {
@@ -410,10 +402,6 @@ export const renderGuidedStudy = () => {
       dom.trailPlayerFocus.textContent = "Sem foco";
     }
 
-    if (dom.trailPlayerStatus) {
-      dom.trailPlayerStatus.textContent = "Sem aula disponível";
-    }
-
     if (dom.trailToggleCompleted) {
       dom.trailToggleCompleted.textContent = "Marcar como vista";
       dom.trailToggleCompleted.removeAttribute("data-lesson-id");
@@ -460,14 +448,6 @@ export const renderGuidedStudy = () => {
 
     if (dom.trailPlayerFocus) {
       dom.trailPlayerFocus.textContent = formatProvas(activeLesson.provas);
-    }
-
-    if (dom.trailPlayerStatus) {
-      dom.trailPlayerStatus.textContent = activeLesson.isPlaceholder
-        ? "Curadoria exata pendente"
-        : activeLesson.isPlaylist
-          ? "Playlist oficial da matéria pronta para estudo"
-          : "Video incorporado pronto para estudo";
     }
 
     if (dom.trailToggleCompleted) {
@@ -786,7 +766,6 @@ export const renderOverview = () => {
   const plannedMinutes = getPlannedMinutes();
   const latestAttempt = getLatestMockAttempt();
 
-  dom.weeklyGoalLabel.textContent = `Meta semanal de ${formatMinutes(state.weeklyGoalMinutes)}`;
   dom.summaryFocus.textContent = formatMinutes(weeklyFocus);
   dom.summaryFocusCopy.textContent = `${weeklyGoalProgress}% da meta semanal concluída`;
   dom.summaryTasks.textContent = `${completedTasks}/${totalTasks}`;
@@ -1447,7 +1426,8 @@ export const renderWeakPoints = () => {
   const performance = getPracticePerformance();
 
   if (dom.weakAccuracy) {
-    dom.weakAccuracy.textContent = performance.answered ? `${performance.accuracy}% de acerto` : "Sem dados";
+    dom.weakAccuracy.hidden = !performance.answered;
+    dom.weakAccuracy.textContent = performance.answered ? `${performance.accuracy}% de acerto` : "";
   }
 
   const dueReviews = getDueReviewCount();
