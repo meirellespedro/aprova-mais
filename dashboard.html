@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Aprova+ Dashboard | Painel pedagógico ENEM e UERJ</title>
+  <meta
+    name="description"
+    content="Painel pedagógico do Aprova+ com trilhas, planner, foco, simulados e leitura de progresso para ENEM e UERJ."
+  />
+  <meta name="robots" content="noindex, nofollow, noarchive" />
+  <meta name="theme-color" content="#0e1724" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="canonical" href="./dashboard.html" />
+  <link rel="icon" href="img/favicon.svg" type="image/svg+xml" />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/dashboard.css" />
+  <script type="module" src="dashboard/main.js"></script>
+</head>
+<body class="dashboard-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+
+  <!-- Onboarding de 2 minutos: aparece só na primeira visita (profile.onboarded === false). -->
+  <div class="onboarding-overlay" data-onboarding hidden role="dialog" aria-modal="true" aria-labelledby="onboarding-title">
+    <div class="onboarding-card surface-card">
+      <span class="onboarding-eyebrow">Bem-vindo ao Aprova+</span>
+      <h2 id="onboarding-title">Vamos montar seu ponto de partida</h2>
+      <p class="onboarding-lead">Dois minutos agora e a plataforma já abre apontando o que estudar — em vez de uma tela cheia de dados que não são seus.</p>
+
+      <form data-onboarding-form>
+        <fieldset class="onboarding-field">
+          <legend>Qual prova é seu foco?</legend>
+          <div class="onboarding-choices" role="radiogroup">
+            <label class="onboarding-choice">
+              <input type="radio" name="track" value="enem" required />
+              <span class="onboarding-choice-title">ENEM</span>
+              <span class="onboarding-choice-copy">TRI, redação e prova interdisciplinar.</span>
+            </label>
+            <label class="onboarding-choice">
+              <input type="radio" name="track" value="uerj" />
+              <span class="onboarding-choice-title">UERJ</span>
+              <span class="onboarding-choice-copy">Qualificação + Discursivo, por disciplina.</span>
+            </label>
+            <label class="onboarding-choice">
+              <input type="radio" name="track" value="hibrido" />
+              <span class="onboarding-choice-title">As duas</span>
+              <span class="onboarding-choice-copy">Plano híbrido ENEM + UERJ.</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <label class="field">
+          <span class="field-label">Curso dos sonhos <small>(opcional)</small></span>
+          <select name="course" data-onboarding-course>
+            <option value="">Escolha um curso das universidades do RJ…</option>
+          </select>
+        </label>
+
+        <div class="onboarding-preview" data-onboarding-preview hidden>
+          <div class="onboarding-preview-block" data-onboarding-pesos-block hidden>
+            <span class="onboarding-preview-label">Matérias de maior peso nesse curso</span>
+            <div class="onboarding-pesos" data-onboarding-pesos></div>
+          </div>
+          <div class="onboarding-preview-block">
+            <span class="onboarding-preview-label">Datas da prova — a gente te avisa</span>
+            <div class="onboarding-datas" data-onboarding-datas></div>
+          </div>
+        </div>
+
+        <label class="field">
+          <span class="field-label">Quanto consegue estudar por semana?</span>
+          <select name="goal">
+            <option value="180">Cerca de 3 horas</option>
+            <option value="360">Cerca de 6 horas</option>
+            <option value="600" selected>Cerca de 10 horas</option>
+            <option value="900">Cerca de 15 horas</option>
+            <option value="1200">20 horas ou mais</option>
+          </select>
+        </label>
+
+        <div class="onboarding-actions">
+          <button class="btn btn-primary btn-block" type="submit" data-onboarding-submit>Começar a estudar</button>
+          <button class="btn btn-ghost" type="button" data-onboarding-skip>Explorar sem configurar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="dashboard-app">
+    <aside class="dashboard-sidebar">
+      <div class="sidebar-brand">
+        <a class="brand" href="index.html">
+          <img class="brand-mark" src="img/favicon-dark.svg" alt="" width="30" height="30" />
+          <span>Aprova+</span>
+        </a>
+        <p>Painel pré-vestibular pensado para priorizar conteúdo, revisão e treino de prova.</p>
+      </div>
+
+      <nav class="dashboard-nav" aria-label="Navegação do dashboard">
+        <ul role="list">
+          <li><a href="#overview">Resumo</a></li>
+          <li><a href="#trilhas">Trilhas</a></li>
+          <li><a href="#provas">Provas</a></li>
+          <li><a href="#matematica-basica">Matemática básica</a></li>
+          <li><a href="#uerj-discursiva">UERJ Discursiva</a></li>
+          <li><a href="#dicas">Dicas</a></li>
+          <li><a href="#tasks">Tarefas</a></li>
+          <li><a href="#planner">Planner</a></li>
+          <li><a href="#simulado">Simulado</a></li>
+          <li><a href="#banco">Banco de questões</a></li>
+          <li><a href="#redacao">Redação</a></li>
+          <li><a href="#analytics">Dados</a></li>
+        </ul>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn btn-secondary btn-block" type="button" data-edit-plan>Editar meu plano</button>
+        <div class="sidebar-data-row">
+          <button class="btn btn-ghost" type="button" data-export-progress>Exportar</button>
+          <button class="btn btn-ghost" type="button" data-import-progress>Importar</button>
+          <input type="file" accept="application/json,.json" data-import-file hidden />
+        </div>
+        <a class="btn btn-secondary btn-block" href="index.html">Voltar para o início</a>
+        <button class="btn btn-ghost btn-block sidebar-reset" type="button" data-reset-progress>Recomeçar do zero</button>
+      </div>
+    </aside>
+
+    <div class="dashboard-stage">
+      <header class="dashboard-topbar">
+        <div>
+          <span class="eyebrow">Plano híbrido ENEM + UERJ</span>
+          <h1>Seu painel de aprovação.</h1>
+          <p class="topbar-copy">Veja o que priorizar nesta semana, quais revisões estão vencendo e onde seu plano precisa ganhar mais tração.</p>
+          <div class="topbar-meta">
+            <div class="topbar-status surface-subtle" role="status" aria-live="polite">
+              <span class="status-dot" aria-hidden="true"></span>
+              <div>
+                <strong data-topbar-status-title>Ciclo pedagógico em andamento</strong>
+                <span data-topbar-status-copy>Revisão, conteúdo e treino de prova precisam andar juntos nesta fase.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="topbar-actions">
+          <button class="btn btn-secondary" type="button" data-scroll-target="#tasks">Adicionar bloco</button>
+          <button class="btn btn-primary" type="button" data-scroll-target="#trilhas">Ver trilhas</button>
+        </div>
+      </header>
+
+      <main class="dashboard-main" id="main-content">
+        <section class="study-today-section is-visible" id="estudar-hoje" aria-label="O que estudar hoje" data-tab="hoje" data-reveal>
+          <article class="study-today-card surface-card" data-study-today>
+            <div class="study-today-body">
+              <span class="module-kicker" data-study-eyebrow>Comece por aqui</span>
+              <h2 data-study-title>Vamos descobrir por onde começar</h2>
+              <p data-study-copy>Responda algumas questões e o Aprova+ passa a indicar exatamente o que treinar.</p>
+            </div>
+            <div class="study-today-side">
+              <div class="study-today-metric" data-study-metric hidden>
+                <strong data-study-metric-value>—</strong>
+                <span data-study-metric-label>de acerto no treino</span>
+              </div>
+              <button class="btn btn-primary" type="button" data-study-cta>Abrir banco de questões</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="meu-plano-section is-visible" id="meu-plano" aria-label="Seu plano" data-tab="hoje" data-reveal>
+          <article class="meu-plano-card surface-card" data-meu-plano>
+            <div class="meu-plano-item">
+              <span class="meu-plano-label">Curso dos sonhos</span>
+              <strong data-plano-curso>Curso ainda não definido</strong>
+              <span class="meu-plano-sub" data-plano-prova>—</span>
+            </div>
+            <div class="meu-plano-item meu-plano-pesos-wrap">
+              <span class="meu-plano-label">Matérias de maior peso</span>
+              <div class="meu-plano-pesos" data-plano-pesos></div>
+            </div>
+            <div class="meu-plano-item meu-plano-exam">
+              <span class="meu-plano-label">Próxima prova</span>
+              <strong data-plano-exam-date>—</strong>
+              <span class="meu-plano-sub" data-plano-exam-count></span>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-highlights" id="overview" aria-label="Resumo rápido da rotina" data-tab="hoje" data-reveal>
+          <article class="highlight-chip surface-card">
+            <span class="module-kicker">Próxima prioridade</span>
+            <strong data-next-session>Agenda pronta</strong>
+            <p data-next-session-copy>Organize o planner para destacar o próximo bloco.</p>
+          </article>
+
+          <article class="highlight-chip surface-card">
+            <span class="module-kicker">Ritmo do plano</span>
+            <strong data-focus-pace>Semana em construção</strong>
+            <p data-focus-pace-copy>Use o pomodoro para ganhar tração.</p>
+          </article>
+
+          <article class="highlight-chip surface-card">
+            <span class="module-kicker">Revisão-chave</span>
+            <strong data-dashboard-tip>Mantenha o fluxo</strong>
+            <p data-dashboard-tip-copy>Concluir uma tarefa ou sessão atualiza seu progresso.</p>
+          </article>
+        </section>
+
+        <section class="strategy-grid" data-tab="hoje" data-reveal>
+          <article class="module-card surface-card strategy-card">
+            <div class="module-head">
+              <div>
+                <h3>Prioridade pedagógica da semana</h3>
+              </div>
+              <span class="module-badge" data-current-track-chip>Modo híbrido</span>
+            </div>
+
+            <div class="track-overview" data-track-overview></div>
+
+            <div class="priority-stack surface-subtle">
+              <strong data-plan-focus-title>Organize a semana para equilibrar base, revisão e prova.</strong>
+              <p data-plan-focus-copy>As recomendações abaixo mostram onde o plano pode ganhar mais impacto pedagógico agora.</p>
+            </div>
+
+            <ul class="priority-list" data-priority-list role="list"></ul>
+          </article>
+
+          <article class="module-card surface-card milestones-card">
+            <div class="module-head">
+              <div>
+                <h3>Reta de preparação</h3>
+              </div>
+              <span class="module-badge" data-next-milestone-chip>Próximo marco</span>
+            </div>
+
+            <div class="milestone-hero surface-subtle">
+              <span class="module-kicker">Próximo passo</span>
+              <strong data-next-milestone-title>Defina seus marcos de prova.</strong>
+              <p data-next-milestone-copy>O Aprova+ usa marcos do ciclo para distribuir base, revisão e treino com mais clareza.</p>
+            </div>
+
+            <div class="milestone-list" data-milestone-list></div>
+          </article>
+        </section>
+
+        <section class="dashboard-section learning-section is-visible" id="trilhas" data-tab="aprender" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Trilhas de estudo</div>
+              <h2>Videoaulas organizadas por matéria, foco e nível</h2>
+              <p>Selecione uma matéria, filtre por dificuldade e acompanhe suas aulas vistas sem sair da plataforma. Os vídeos ficam embutidos no próprio dashboard para o aluno estudar com fluidez.</p>
+            </div>
+            <span class="status-pill" data-trail-summary-badge>13 matérias</span>
+          </div>
+
+          <div class="trail-explorer">
+            <aside class="trail-sidebar surface-card">
+              <div class="module-head">
+                <div>
+                  <h3>Monte a visão da trilha</h3>
+                </div>
+              </div>
+
+              <label class="field trail-search-field">
+                <span class="field-label">Buscar tópico</span>
+                <input type="search" placeholder="Ex.: função quadrática, ecologia, crase" data-trail-search />
+              </label>
+
+              <div class="trail-filter-grid">
+                <label class="field task-form-field task-form-field-title">
+                  <span class="field-label">Matéria</span>
+                  <select data-trail-subject-filter>
+                    <option value="all">Todas as matérias</option>
+                  </select>
+                </label>
+
+                <label class="field task-form-field task-form-field-subject">
+                  <span class="field-label">Nível</span>
+                  <select data-trail-level-filter>
+                    <option value="all">Todos os níveis</option>
+                    <option value="Básico">Básico</option>
+                    <option value="Intermediário">Intermediário</option>
+                    <option value="Avançado">Avançado</option>
+                  </select>
+                </label>
+
+                <label class="field task-form-field task-form-field-track">
+                  <span class="field-label">Prova</span>
+                  <select data-trail-focus-filter>
+                    <option value="all">Todas as provas</option>
+                    <option value="enem">ENEM</option>
+                    <option value="uerj-qualificacao">UERJ 1ª fase</option>
+                    <option value="uerj-discursiva">UERJ 2ª fase</option>
+                  </select>
+                </label>
+              </div>
+
+              <div class="trail-progress surface-subtle">
+                <div class="trail-progress-head">
+                  <strong data-trail-completed-count>0 vistas de 0</strong>
+                  <span data-trail-result-count>0 aulas na visao atual</span>
+                </div>
+                <div class="trail-progress-bar" aria-hidden="true">
+                  <span data-trail-progress-fill></span>
+                </div>
+                <p data-trail-progress-text>Marque aulas como vistas para acompanhar o progresso da trilha.</p>
+              </div>
+
+              <div class="trail-subject-rail" data-trail-subject-rail></div>
+            </aside>
+
+            <div class="trail-stage">
+              <article class="module-card surface-card trail-player-card">
+                <div class="module-head">
+                  <div>
+                    <span class="module-kicker">Player principal</span>
+                    <h3 data-trail-player-topic>Selecione uma aula da trilha</h3>
+                  </div>
+                  <span class="module-badge" data-trail-player-status>Pronto para reproduzir</span>
+                </div>
+
+                <div class="trail-player-meta">
+                  <span class="subject-tag" data-trail-player-subject>Matéria</span>
+                  <span class="trail-meta-pill" data-trail-player-level>Nível</span>
+                  <span class="trail-meta-pill" data-trail-player-priority>Prioridade</span>
+                  <span class="trail-meta-pill" data-trail-player-focus>Foco</span>
+                </div>
+
+                <p class="trail-player-description" data-trail-player-description>Abra um tópico para ver descrição, professor e vídeo incorporado sem sair da plataforma.</p>
+
+                <div class="trail-player-shell" data-trail-player-shell>
+                  <div class="trail-player-placeholder surface-subtle">
+                    <span>Area do player</span>
+                    <strong>Escolha uma aula para começar</strong>
+                    <p>Ao clicar em um tópico, o vídeo abre aqui dentro do dashboard com as informações da aula.</p>
+                  </div>
+                </div>
+
+                <div class="trail-player-footer">
+                  <strong data-trail-player-teacher>Professor e canal</strong>
+                  <button class="btn btn-secondary" type="button" data-trail-toggle-completed>Marcar como vista</button>
+                </div>
+              </article>
+
+              <article class="module-card surface-card trail-library-card">
+                <div class="module-head">
+                  <div>
+                    <span class="module-kicker">Biblioteca de aulas</span>
+                    <h3>Topicos organizados por prioridade</h3>
+                  </div>
+                </div>
+                <p class="module-intro">Cada card mostra tópico, descrição curta, professor, nível, prioridade e foco da aula. O clique abre o vídeo no player acima.</p>
+                <div class="trail-lesson-grid" data-trail-lesson-grid></div>
+              </article>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-section exam-library-section" id="provas" data-tab="aprender" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Banco de provas</div>
+              <h2>Provas oficiais dos últimos 10 anos</h2>
+              <p>Recorte usado nesta biblioteca: <strong>2016 a 2025</strong>. Aqui o clique ja dispara o download do PDF oficial. No ENEM, cada ano baixa os cadernos do Dia 1 e Dia 2. Na UERJ, a biblioteca respeita o formato oficial de cada edicao, incluindo 1o EQ, 2o EQ, discursiva e os anos de Exame Unico.</p>
+            </div>
+          </div>
+          <p class="module-intro">Cada clique abaixo baixa o PDF oficial correspondente, sem redirecionar voce para a pagina do INEP ou da UERJ.</p>
+
+          <div class="exam-library-grid">
+            <article class="module-card surface-card exam-library-card">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">ENEM</span>
+                  <h3>Downloads diretos do Inep</h3>
+                </div>
+                <span class="module-badge">10 edições</span>
+              </div>
+              <p class="module-intro">Cada botao baixa diretamente o PDF oficial do respectivo dia do ENEM.</p>
+              <div class="exam-library-list" data-exam-library-enem></div>
+              <p class="module-intro">Os botoes acima baixam direto os cadernos do Dia 1 e Dia 2.</p>
+            </article>
+
+            <article class="module-card surface-card exam-library-card">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">UERJ</span>
+                  <h3>Downloads diretos por etapa</h3>
+                </div>
+                <span class="module-badge">1º EQ, 2º EQ e 2ª fase</span>
+              </div>
+              <p class="module-intro">Os botoes abaixo baixam os PDFs oficiais disponiveis para cada etapa da UERJ, sem te jogar para outra pagina no meio do caminho.</p>
+              <div data-exam-library-uerj></div>
+              <p class="module-intro">Os botoes acima baixam direto os PDFs oficiais disponiveis para cada etapa da UERJ.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="dashboard-section basic-math-section" id="matematica-basica" data-tab="aprender" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Matemática básica</div>
+              <h2>Os fundamentos cobrados em ENEM e UERJ</h2>
+              <p>Toda a base de matemática reunida e em ordem. Clique em um tópico para assistir à videoaula embutida, sem sair da plataforma.</p>
+            </div>
+            <span class="status-pill" data-basic-math-badge>Fundamentos</span>
+          </div>
+
+          <div class="basic-math-grid" data-basic-math-grid></div>
+        </section>
+
+        <section class="dashboard-section discursiva-section" id="uerj-discursiva" data-tab="aprender" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">UERJ · 2ª fase</div>
+              <h2>Exame Discursivo: o que decide a vaga</h2>
+              <p>A 2ª fase é onde a maioria perde: respostas escritas corrigidas por critério, redação amarrada a um livro e 2 disciplinas específicas do seu curso. Comece entendendo a prova, depois treine redação e as obras do edital.</p>
+            </div>
+          </div>
+
+          <div class="discursiva-intro surface-subtle">
+            <ul role="list">
+              <li><strong>Formato:</strong> redação obrigatória + 2 específicas do curso. Cada prova vale 20 pts; uma específica tem peso 2. Dia único, 5h. <span class="discursiva-note">Pesos e duração mudam por ciclo — confirme no edital oficial em <a href="https://www.vestibular.uerj.br" target="_blank" rel="noopener">vestibular.uerj.br</a>.</span></li>
+              <li><strong>Redação:</strong> dissertativo-argumentativa de 20–30 linhas, amarrada à obra, sem proposta de intervenção — e proibido resumir o livro.</li>
+              <li><strong>Como pontuar:</strong> responda exatamente o comando, mostre o cálculo/raciocínio e use vocabulário técnico. Resposta "quase certa" perde ponto.</li>
+            </ul>
+          </div>
+
+          <div class="discursiva-content" data-discursiva-content></div>
+
+          <p class="discursiva-foot">As 2 disciplinas específicas mudam por curso. Veja todas as aulas da 2ª fase filtrando <strong>"UERJ 2ª fase"</strong> em <a href="#trilhas">Trilhas</a>. <span class="discursiva-note">Confirme as específicas do <strong>seu</strong> curso no edital vigente em <a href="https://www.vestibular.uerj.br" target="_blank" rel="noopener">vestibular.uerj.br</a>.</span></p>
+        </section>
+
+        <section class="dashboard-section dicas-section" id="dicas" data-tab="aprender" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Estratégia de estudo</div>
+              <h2>Dicas que mudam sua nota</h2>
+              <p>Direto ao ponto: o que fazer — e o que não fazer — em cada prova.</p>
+            </div>
+          </div>
+
+          <div class="dicas-grid">
+            <article class="dicas-card surface-card">
+              <h3>Como jogar o jogo do ENEM</h3>
+              <ul role="list">
+                <li><strong>TRI:</strong> acertar fáceis e médias com consistência vale mais que cravar difíceis. Erre uma fácil e acerte uma difícil e a nota cai — coerência conta.</li>
+                <li><strong>Maior retorno por hora:</strong> interpretação de texto, porcentagem, gráficos e regra de três aparecem na prova inteira. Rende mais que decorar exceção.</li>
+                <li><strong>Redação 900+:</strong> o que separa 700 de 900 é o projeto de texto (C3) e a proposta completa (C5: agente + ação + meio + finalidade + detalhamento).</li>
+                <li><strong>Não perca tempo:</strong> gramática normativa solta, logaritmo/trigonometria pesados, literatura escola-por-escola. Baixa incidência.</li>
+                <li><strong>Reta final:</strong> simulados cronometrados + caderno de erros. Resistência de 5h30 se treina.</li>
+              </ul>
+            </article>
+
+            <article class="dicas-card surface-card">
+              <h3>Por que a UERJ é outro jogo</h3>
+              <ul role="list">
+                <li><strong>É por disciplina:</strong> cobra gramática de verdade (crase, regência, concordância) e conteúdo direto — o oposto do ENEM contextualizado.</li>
+                <li><strong>Leia as obras já:</strong> 2 na Qualificação, 1 de Literatura e 1 de Redação no Discursivo. Não dá pra deixar pra última hora. <span class="discursiva-note">Lista de obras definida pelo edital de cada ciclo.</span></li>
+                <li><strong>Discursivo desde cedo:</strong> resposta escrita pontuada por critério se treina o ano todo, não na véspera. É onde a maioria falha.</li>
+                <li><strong>Redação UERJ ≠ ENEM:</strong> amarrada ao livro, 20–30 linhas, sem proposta de intervenção, proibido resumir. Treinar redação ENEM não prepara.</li>
+                <li><strong>Recortes da banca:</strong> Geografia com foco no Rio de Janeiro; História com forte Brasil-América; Português + Literatura juntas.</li>
+              </ul>
+            </article>
+          </div>
+
+          <p class="dicas-foot">Calendário, pesos por grupo de curso e cotas mudam por ciclo — confira sempre o edital oficial em <a href="https://www.vestibular.uerj.br" target="_blank" rel="noopener">vestibular.uerj.br</a>.</p>
+        </section>
+
+        <section class="dashboard-section" id="semana" data-tab="hoje" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Plano da semana</div>
+              <h2>Seu foco pedagógico</h2>
+              <p>Uma leitura rápida do quanto o plano avançou em carga, execução, treino e constância.</p>
+            </div>
+            <span class="status-pill" data-weekly-goal-label>Meta semanal de 15h</span>
+          </div>
+
+          <div class="summary-grid">
+            <article class="summary-card surface-card">
+              <span>Carga da semana</span>
+              <strong data-summary-focus>0h</strong>
+              <small data-summary-focus-copy>0 minutos registrados esta semana</small>
+            </article>
+
+            <article class="summary-card surface-card">
+              <span>Execução do plano</span>
+              <strong data-summary-tasks>0/0</strong>
+              <small data-summary-tasks-copy>Nenhuma tarefa concluída ainda</small>
+            </article>
+
+            <article class="summary-card surface-card">
+              <span>Treino recente</span>
+              <strong data-summary-accuracy>0%</strong>
+              <small data-summary-accuracy-copy>Sem tentativas registradas</small>
+            </article>
+
+            <article class="summary-card surface-card">
+              <span>Constância</span>
+              <strong data-summary-streak>0 dias</strong>
+              <small data-summary-streak-copy>Consistência constrói resultado</small>
+            </article>
+          </div>
+
+          <div class="overview-grid">
+            <article class="module-card surface-card pomodoro-card" id="focus">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Foco do dia</span>
+                  <h3>Bloco de estudo guiado</h3>
+                </div>
+                <span class="module-badge" data-pomodoro-status>Pronto para iniciar</span>
+              </div>
+
+              <div class="pomodoro-clock" data-pomodoro-time>25:00</div>
+
+              <p class="pomodoro-copy">Use o contador para transformar prioridade pedagógica em execução real. Ao concluir um bloco, o plano registra foco e histórico da semana.</p>
+
+              <div class="pomodoro-controls">
+                <button class="btn btn-primary" type="button" data-pomodoro-action="start">Iniciar</button>
+                <button class="btn btn-secondary" type="button" data-pomodoro-action="pause">Pausar</button>
+                <button class="btn btn-ghost" type="button" data-pomodoro-action="reset">Resetar</button>
+              </div>
+
+              <div class="pomodoro-meta">
+                <div>
+                  <span>Sessões concluídas</span>
+                  <strong data-pomodoro-sessions>0</strong>
+                </div>
+                <div>
+                  <span>Minutos de foco</span>
+                  <strong data-pomodoro-minutes>0</strong>
+                </div>
+              </div>
+            </article>
+
+            <article class="module-card surface-card task-card" id="tasks">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Plano de estudo</span>
+                  <h3>Fila de execução</h3>
+                </div>
+                <span class="module-badge"><strong data-task-completed-count>0</strong>/<span data-task-total-count>0</span> concluídas</span>
+              </div>
+
+              <form class="inline-form" data-task-form>
+                <label class="field task-form-field task-form-field-title">
+                  <span class="field-label">Tarefa</span>
+                  <input type="text" name="title" placeholder="Ex.: Revisar funções do 2º grau" required />
+                </label>
+
+                <label class="field task-form-field task-form-field-subject">
+                  <span class="field-label">Matéria</span>
+                  <select name="subject"></select>
+                </label>
+
+                <label class="field task-form-field task-form-field-track">
+                  <span class="field-label">Prova</span>
+                  <select name="track"></select>
+                </label>
+
+                <label class="field field-sm task-form-field task-form-field-estimate">
+                  <span class="field-label">Minutos</span>
+                  <input type="number" name="estimate" min="10" max="180" step="5" value="30" required />
+                </label>
+
+                <button class="btn btn-primary task-form-submit" type="submit">Adicionar</button>
+              </form>
+
+              <ul class="task-list" data-task-list role="list"></ul>
+              <p class="empty-state" data-task-empty hidden>Nenhuma tarefa cadastrada. Adicione a primeira para começar.</p>
+            </article>
+          </div>
+        </section>
+
+        <section class="workspace-grid" data-tab="hoje">
+          <article class="module-card surface-card planner-card" id="planner" data-reveal>
+            <div class="module-head">
+              <div>
+                <h3>Agenda semanal por prova</h3>
+              </div>
+              <span class="module-badge"><strong data-session-total>0</strong> sessões planejadas</span>
+            </div>
+
+            <div class="planner-layout">
+              <form class="planner-form" data-session-form>
+                <input type="hidden" name="sessionId" />
+
+                <label class="field">
+                  <span class="field-label">Sessão</span>
+                  <input type="text" name="title" placeholder="Ex.: Lista de eletricidade" required />
+                </label>
+
+                <label class="field">
+                  <span class="field-label">Matéria</span>
+                  <select name="subject"></select>
+                </label>
+
+                <label class="field">
+                  <span class="field-label">Prova</span>
+                  <select name="track"></select>
+                </label>
+
+                <label class="field">
+                  <span class="field-label">Dia</span>
+                  <select name="day">
+                    <option value="0">Segunda</option>
+                    <option value="1">Terça</option>
+                    <option value="2">Quarta</option>
+                    <option value="3">Quinta</option>
+                    <option value="4">Sexta</option>
+                    <option value="5">Sábado</option>
+                  </select>
+                </label>
+
+                <div class="field-row">
+                  <label class="field field-sm">
+                    <span class="field-label">Início</span>
+                    <input type="time" name="start" required />
+                  </label>
+
+                  <label class="field field-sm">
+                    <span class="field-label">Fim</span>
+                    <input type="time" name="end" required />
+                  </label>
+                </div>
+
+                <div class="planner-form-actions">
+                  <button class="btn btn-primary" type="submit" data-session-submit>Salvar sessão</button>
+                  <button class="btn btn-ghost" type="button" data-session-cancel hidden>Cancelar edição</button>
+                </div>
+              </form>
+
+              <div class="planner-board">
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Seg</strong>
+                    <span data-session-count="0">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="0"></div>
+                </article>
+
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Ter</strong>
+                    <span data-session-count="1">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="1"></div>
+                </article>
+
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Qua</strong>
+                    <span data-session-count="2">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="2"></div>
+                </article>
+
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Qui</strong>
+                    <span data-session-count="3">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="3"></div>
+                </article>
+
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Sex</strong>
+                    <span data-session-count="4">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="4"></div>
+                </article>
+
+                <article class="planner-column surface-subtle">
+                  <header>
+                    <strong>Sáb</strong>
+                    <span data-session-count="5">0</span>
+                  </header>
+                  <div class="planner-column-list" data-session-day="5"></div>
+                </article>
+              </div>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section mock-section" data-tab="simulado" data-reveal>
+          <article class="module-card surface-card mock-card" id="simulado" data-reveal>
+            <div class="module-head">
+              <div>
+                <span class="module-kicker">Simulado cronometrado</span>
+                <h3>Treine como na prova</h3>
+              </div>
+              <span class="module-badge" data-mock-progress>Pronto para começar</span>
+            </div>
+
+            <!-- Tela de início: escolher tamanho e iniciar -->
+            <div class="mock-setup" data-mock-setup>
+              <p class="mock-setup-copy" data-mock-setup-copy>Monte um simulado a partir do banco de questões, no foco da sua prova. O cronômetro começa ao iniciar.</p>
+              <div class="mock-setup-sizes" role="group" aria-label="Quantidade de questões" data-mock-sizes>
+                <button class="mock-size" type="button" data-mock-size="10">10 questões</button>
+                <button class="mock-size" type="button" data-mock-size="20">20 questões</button>
+                <button class="mock-size" type="button" data-mock-size="30">30 questões</button>
+              </div>
+              <button class="btn btn-primary" type="button" data-mock-start>Iniciar simulado</button>
+            </div>
+
+            <!-- Simulado em andamento -->
+            <div class="mock-play" data-mock-play hidden>
+              <div class="mock-track" data-mock-track></div>
+
+              <div class="mock-meta">
+                <span class="subject-tag" data-mock-subject>Matemática</span>
+                <span class="mock-timer" data-mock-timer aria-live="off">⏱ 00:00</span>
+                <span class="mock-helper" data-mock-helper>Responda com atenção ao tempo, como na prova real.</span>
+              </div>
+
+              <h4 class="mock-question" data-mock-question></h4>
+
+              <div class="mock-options" data-mock-options role="radiogroup" aria-label="Alternativas do simulado"></div>
+
+              <div class="mock-actions">
+                <button class="btn btn-ghost" type="button" data-mock-prev>Anterior</button>
+                <div class="mock-actions-right">
+                  <button class="btn btn-ghost" type="button" data-mock-abort>Sair</button>
+                  <button class="btn btn-secondary" type="button" data-mock-next>Próxima</button>
+                  <button class="btn btn-primary" type="button" data-mock-submit>Finalizar simulado</button>
+                </div>
+              </div>
+
+              <p class="mock-feedback" data-mock-feedback></p>
+            </div>
+
+            <!-- Resultado + revisão dos erros -->
+            <div class="mock-result surface-subtle" data-mock-result hidden>
+              <span class="mock-result-kicker">Resultado</span>
+              <strong data-result-score>0/0</strong>
+              <p data-result-copy>Seu desempenho aparecerá aqui ao finalizar.</p>
+              <div class="mock-review" data-mock-review></div>
+              <button class="btn btn-primary" type="button" data-mock-restart>Novo simulado</button>
+            </div>
+          </article>
+        </section>
+
+        <section class="dashboard-section question-bank-section is-visible" id="banco" data-tab="banco" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Banco de questões</div>
+              <h2>Escolha a matéria e o conteúdo para treinar</h2>
+              <p>Selecione uma matéria para ver apenas as questões dela e refine pelo conteúdo específico. Clique em uma alternativa para conferir o gabarito e a resolução comentada.</p>
+            </div>
+            <span class="status-pill" data-bank-count>0 questões</span>
+          </div>
+
+          <div class="question-bank-layout">
+            <aside class="question-bank-filters surface-card">
+              <div class="module-head">
+                <div>
+                  <h3>Monte sua lista de questões</h3>
+                </div>
+              </div>
+
+              <label class="field">
+                <span class="field-label">Matéria</span>
+                <select data-bank-subject>
+                  <option value="all">Todas as matérias</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">Conteúdo</span>
+                <select data-bank-topic disabled>
+                  <option value="all">Todos os conteúdos</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">Prova</span>
+                <select data-bank-track>
+                  <option value="all">Todas as provas</option>
+                  <option value="enem">ENEM</option>
+                  <option value="uerj">UERJ</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">Tipo</span>
+                <select data-bank-tipo>
+                  <option value="all">Objetivas e discursivas</option>
+                  <option value="objetiva">Só objetivas</option>
+                  <option value="discursiva">Só discursivas</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">Nível</span>
+                <select data-bank-level>
+                  <option value="all">Todos os níveis</option>
+                  <option value="Fácil">Fácil</option>
+                  <option value="Médio">Médio</option>
+                  <option value="Difícil">Difícil</option>
+                </select>
+              </label>
+
+              <label class="field">
+                <span class="field-label">Buscar no enunciado</span>
+                <input type="search" placeholder="Ex.: porcentagem, eutrofização, sujeito" data-bank-search />
+              </label>
+
+              <label class="bank-errors-toggle">
+                <input type="checkbox" data-bank-errors />
+                <span>Só os que <strong>errei</strong> <small data-bank-errors-count></small></span>
+              </label>
+
+              <button class="btn btn-ghost btn-block" type="button" data-bank-reset>Limpar filtros</button>
+            </aside>
+
+            <div class="question-bank-stage">
+              <div class="question-bank-grid" data-bank-grid></div>
+              <p class="question-bank-empty surface-subtle" data-bank-empty hidden>
+                Nenhuma questão encontrada com esses filtros. Ajuste a matéria, o conteúdo ou a busca.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <section class="dashboard-section redacao-section is-visible" id="redacao" data-tab="redacao" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Redação</div>
+              <h2>Treine a redação com tema e autocorreção</h2>
+              <p>Escolha a prova, pegue um tema para escrever e use a grade por competência para se avaliar com o mesmo critério da banca.</p>
+            </div>
+            <label class="redacao-prova-toggle">
+              <span class="field-label">Prova</span>
+              <select data-redacao-prova>
+                <option value="enem">ENEM</option>
+                <option value="uerj">UERJ</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="redacao-layout">
+            <div class="redacao-temas">
+              <h3 class="redacao-subtitle">Banco de temas</h3>
+              <div class="redacao-temas-grid" data-redacao-temas></div>
+            </div>
+
+            <aside class="redacao-grader surface-card">
+              <h3 class="redacao-subtitle">Autocorreção</h3>
+              <p class="redacao-grader-intro" data-redacao-grader-intro>Dê uma nota honesta a cada competência depois de escrever. O total te mostra onde focar.</p>
+              <div class="redacao-criteria" data-redacao-criteria></div>
+              <div class="redacao-total surface-subtle">
+                <div>
+                  <span class="redacao-total-label">Sua nota estimada</span>
+                  <strong data-redacao-total>0</strong>
+                </div>
+                <p data-redacao-band>Preencha as competências para ver a leitura.</p>
+              </div>
+              <p class="redacao-note">A nota é uma <strong>autoavaliação guiada</strong> — uma referência para evoluir, não a correção oficial. Correção por IA e por professores está no nosso roadmap.</p>
+            </aside>
+          </div>
+        </section>
+
+        <section class="dashboard-section analytics-section" id="analytics" data-tab="hoje" data-reveal>
+          <div class="section-heading dashboard-heading">
+            <div>
+              <div class="eyebrow">Dados do plano</div>
+              <h2>Leitura de cobertura e constância</h2>
+              <p>Os indicadores abaixo ajudam a enxergar distribuição por matéria, carga semanal, histórico de treino e consistência de estudo.</p>
+            </div>
+          </div>
+
+          <div class="analytics-grid">
+            <article class="module-card surface-card weak-points-card" data-weak-points>
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Desempenho real</span>
+                  <h3>Seus pontos fracos</h3>
+                </div>
+                <span class="module-badge" data-weak-accuracy>—</span>
+              </div>
+              <p class="module-intro" data-weak-summary>Responda questões no banco para o Aprova+ medir onde você acerta e onde precisa reforçar.</p>
+              <div class="perf-timeline" data-perf-timeline hidden></div>
+              <ul class="weak-points-list" data-weak-list role="list"></ul>
+              <button class="btn btn-primary btn-block weak-points-cta" type="button" data-reviews-cta hidden>Revisões de hoje</button>
+              <button class="btn btn-secondary btn-block weak-points-cta" type="button" data-weak-cta hidden>Refazer todos os que errei</button>
+            </article>
+
+            <article class="module-card surface-card readiness-card">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Cobertura</span>
+                  <h3>Cobertura do plano semanal</h3>
+                </div>
+              </div>
+
+              <div class="readiness-layout">
+                <div class="readiness-ring" data-readiness-ring>
+                  <div>
+                    <strong data-readiness-score>0%</strong>
+                    <span>Cobertura</span>
+                  </div>
+                </div>
+
+                <div class="subject-breakdown" data-subject-list></div>
+              </div>
+            </article>
+
+            <article class="module-card surface-card chart-card">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Semana</span>
+                  <h3>Evolução da carga</h3>
+                </div>
+              </div>
+
+              <div class="weekly-chart" data-weekly-chart></div>
+              <div class="chart-summary">
+                <article class="chart-summary-item surface-subtle">
+                  <span>Melhor dia</span>
+                  <strong data-chart-best-day>--</strong>
+                </article>
+                <article class="chart-summary-item surface-subtle">
+                  <span>Média diária</span>
+                  <strong data-chart-average>0 min</strong>
+                </article>
+                <article class="chart-summary-item surface-subtle">
+                  <span>Meta da semana</span>
+                  <strong data-chart-goal>0%</strong>
+                </article>
+              </div>
+              <div class="mock-history" data-mock-history></div>
+            </article>
+
+            <article class="module-card surface-card heatmap-card">
+              <div class="module-head">
+                <div>
+                  <span class="module-kicker">Constância</span>
+                  <h3>Mapa de estudo e histórico recente</h3>
+                </div>
+              </div>
+
+              <div class="heatmap-grid" data-heatmap aria-label="Mapa de intensidade de estudo nas últimas semanas"></div>
+              <div class="heatmap-meta">
+                <span class="heatmap-legend">Baixa intensidade</span>
+                <span class="heatmap-legend" data-heatmap-summary>Atividade distribuída pelas últimas 4 semanas</span>
+              </div>
+              <ul class="activity-feed" data-activity-feed role="list"></ul>
+            </article>
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <div class="toast-stack" data-toast-stack aria-live="polite" aria-atomic="false"></div>
+
+  <nav class="dashboard-mobile-nav" aria-label="Navegação rápida do dashboard">
+    <ul role="list">
+      <li>
+        <a href="#overview">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/>
+          </svg>
+          <span>Resumo</span>
+        </a>
+      </li>
+      <li>
+        <a href="#trilhas">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="9"/><path d="M10 8.5 L16 12 L10 15.5 Z" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>Trilhas</span>
+        </a>
+      </li>
+      <li>
+        <a href="#banco">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 5.5A2 2 0 0 1 6 3.5h12a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1H6a2 2 0 0 1-2-2z"/><path d="M4 17.5A2 2 0 0 1 6 15.5h13"/><path d="M9 8h6"/>
+          </svg>
+          <span>Banco</span>
+        </a>
+      </li>
+      <li>
+        <a href="#simulado">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="4.5"/><circle cx="12" cy="12" r="1" fill="currentColor" stroke="none"/>
+          </svg>
+          <span>Simulado</span>
+        </a>
+      </li>
+      <li>
+        <a href="#redacao">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M14 5l5 5"/><path d="M4 20l1.2-4.2L16 5a2 2 0 0 1 3 3L8.2 18.8 4 20z"/>
+          </svg>
+          <span>Redação</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</body>
+</html>

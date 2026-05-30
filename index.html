@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Aprova+ — Plataforma de estudo para ENEM e UERJ</title>
+  <meta
+    name="description"
+    content="Aprova+ organiza sua preparação para o ENEM e a UERJ em um só lugar: planner semanal, foco com Pomodoro, simulados e leitura de progresso. Sem cadastro, direto no navegador."
+  />
+  <meta name="robots" content="index, follow, max-image-preview:large" />
+  <meta name="theme-color" content="#f5efe2" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="canonical" href="https://aprova-mais.pages.dev/" />
+  <meta property="og:locale" content="pt_BR" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://aprova-mais.pages.dev/" />
+  <meta property="og:site_name" content="Aprova+" />
+  <meta property="og:title" content="Aprova+ — Plataforma de estudo para ENEM e UERJ" />
+  <meta
+    property="og:description"
+    content="Planner, foco, simulados e progresso num só app. Organize sua preparação para o ENEM e a UERJ direto no navegador."
+  />
+  <meta property="og:image:alt" content="Painel do Aprova+: resumo da semana, prioridade de estudo e progresso da meta." />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Aprova+ — Plataforma de estudo para ENEM e UERJ" />
+  <meta
+    name="twitter:description"
+    content="Planner, foco, simulados e progresso num só app. Organize sua preparação para o ENEM e a UERJ."
+  />
+  <link rel="manifest" href="site.webmanifest" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap"
+    rel="stylesheet"
+  />
+  <link rel="icon" href="img/favicon-16.svg" sizes="16x16 32x32" type="image/svg+xml">
+  <link rel="icon" href="img/favicon.svg" sizes="any" type="image/svg+xml">
+  <meta property="og:image" content="https://aprova-mais.pages.dev/img/og-image.png">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:image" content="https://aprova-mais.pages.dev/img/og-image.png">
+  <link rel="stylesheet" href="styles/tokens.css" />
+  <link rel="stylesheet" href="styles/base.css" />
+  <link rel="stylesheet" href="styles/landing.css" />
+  <script src="script.js" defer></script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebApplication",
+      "name": "Aprova+",
+      "description": "Plataforma de estudo para ENEM e UERJ com planner, foco, simulados e leitura de progresso.",
+      "url": "./",
+      "applicationCategory": "EducationApplication",
+      "operatingSystem": "Web",
+      "inLanguage": "pt-BR",
+      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "BRL" }
+    }
+  </script>
+</head>
+<body class="landing-page">
+  <a class="skip-link" href="#main-content">Pular para o conteúdo</a>
+
+  <header class="site-header" data-header>
+    <div class="container header-inner">
+      <a class="brand" href="#home">
+        <img class="brand-mark" src="img/favicon.svg" alt="" width="30" height="30" />
+        <span>Aprova+</span>
+      </a>
+
+      <nav class="site-nav" id="site-nav-panel" data-nav aria-label="Navegação principal">
+        <ul role="list">
+          <li><a href="#recursos">Recursos</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#comecar">Começar</a></li>
+          <li><a class="nav-cta" href="dashboard.html">Abrir o app</a></li>
+        </ul>
+      </nav>
+
+      <button class="menu-toggle" type="button" data-menu-toggle aria-expanded="false" aria-controls="site-nav-panel">
+        Menu
+      </button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="landing-hero" id="home">
+      <div class="container landing-hero-grid">
+        <div class="landing-hero-copy" data-reveal>
+          <div class="hero-eyebrow-row">
+            <span class="eyebrow">Plataforma de estudo — ENEM e UERJ</span>
+          </div>
+
+          <h1>Estude para o vestibular com método, não com ansiedade.</h1>
+          <p>
+            O Aprova+ reúne planner semanal, foco com Pomodoro, simulados e leitura de progresso num só lugar.
+            Você decide o que estudar, o app cuida de organizar a rotina e mostrar o que está vencendo.
+          </p>
+
+          <div class="landing-hero-actions">
+            <a class="btn btn-primary" href="dashboard.html">Começar agora</a>
+            <a class="btn btn-secondary" href="#recursos">Ver recursos</a>
+          </div>
+
+          <ul class="hero-keypoints" role="list">
+            <li class="surface-card">
+              <strong>Sem cadastro</strong>
+              <span>Abra e comece a usar na hora. Nada de e-mail, senha ou confirmação para estudar.</span>
+            </li>
+            <li class="surface-card">
+              <strong>Tudo num app só</strong>
+              <span>Planner, foco, simulado e progresso conversam entre si, em vez de viver em abas separadas.</span>
+            </li>
+            <li class="surface-card">
+              <strong>Seus dados no seu aparelho</strong>
+              <span>O progresso fica salvo no próprio navegador. Funciona offline depois de aberto.</span>
+            </li>
+          </ul>
+        </div>
+
+        <div class="landing-hero-visual" data-reveal>
+          <figure class="hero-shot surface-card">
+            <picture>
+              <source srcset="docs/preview.webp" type="image/webp" />
+              <img
+                src="docs/preview.jpg"
+                width="1600"
+                height="1000"
+                alt="Painel do Aprova+: o ponto fraco do dia para treinar, o curso dos sonhos com as matérias de maior peso e a contagem para a próxima prova."
+                loading="eager"
+                decoding="async"
+              />
+            </picture>
+            <figcaption>O painel do Aprova+ — seu ponto fraco do dia, plano e próxima prova em uma tela.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section product-section" id="recursos">
+      <div class="container">
+        <div class="section-heading section-heading-split" data-reveal>
+          <div>
+            <div class="eyebrow">Recursos</div>
+            <h2>Tudo o que a sua preparação precisa, sem espalhar em mil ferramentas.</h2>
+          </div>
+          <p>
+            Em vez de um caderno, um timer, uma planilha e um app de simulado, o Aprova+ junta tudo
+            num fluxo só — pensado para quem está mirando o ENEM e a UERJ.
+          </p>
+        </div>
+
+        <div class="product-story">
+          <article class="product-editorial surface-card" data-reveal>
+            <div class="product-editorial-intro">
+              <span class="section-chip">No centro</span>
+              <h3>Um planner que mostra o que fazer agora — não só uma lista.</h3>
+              <p>
+                A tela inicial destaca a próxima prioridade, o ritmo da sua meta e as revisões que estão
+                vencendo. Você abre o app já sabendo por onde começar, em vez de decidir do zero todo dia.
+              </p>
+            </div>
+
+            <div class="product-editorial-grid">
+              <div>
+                <span class="product-editorial-label">Planner semanal</span>
+                <p>Monte os blocos de estudo da semana e acompanhe o que já foi feito sem perder o todo.</p>
+              </div>
+              <div>
+                <span class="product-editorial-label">Foco com Pomodoro</span>
+                <p>Um timer de foco integrado às tarefas, para estudar em ciclos sem trocar de aba.</p>
+              </div>
+              <div>
+                <span class="product-editorial-label">Leitura de progresso</span>
+                <p>Veja a evolução da meta e onde o plano está perdendo tração, em números simples.</p>
+              </div>
+            </div>
+          </article>
+
+          <aside class="product-rail">
+            <article class="product-rail-item surface-subtle" data-reveal>
+              <span>Trilhas</span>
+              <strong>Conteúdo organizado por frente.</strong>
+              <p>Trilhas de estudo separadas por matéria, para você seguir uma ordem em vez de pular solto.</p>
+            </article>
+
+            <article class="product-rail-item surface-subtle" data-reveal>
+              <span>Simulados</span>
+              <strong>Treino de prova de verdade.</strong>
+              <p>Mini simulados para testar o conteúdo e acostumar com o formato do ENEM e da UERJ.</p>
+            </article>
+
+            <article class="product-rail-item surface-subtle" data-reveal>
+              <span>Revisão</span>
+              <strong>Nada cai no esquecimento.</strong>
+              <p>O painel lembra o que precisa ser revisado, para a revisão andar junto com o conteúdo novo.</p>
+            </article>
+          </aside>
+        </div>
+      </div>
+
+      <div class="container signal-row" data-reveal>
+        <article class="signal-card surface-card">
+          <strong>4 frentes, 1 app</strong>
+          <span>Planner, foco, simulado e progresso no mesmo lugar — sem ficar pulando de ferramenta.</span>
+        </article>
+        <article class="signal-card surface-card">
+          <strong>0 cadastro</strong>
+          <span>Sem login, sem e-mail, sem espera. Abriu, está estudando.</span>
+        </article>
+        <article class="signal-card surface-card">
+          <strong>Progresso no seu aparelho</strong>
+          <span>Roda no celular ou no computador e salva tudo localmente. Baixar provas e assistir às aulas precisa de internet.</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="landing-section" id="como-funciona">
+      <div class="container">
+        <article class="author-card surface-card" data-reveal>
+          <div class="author-card-intro">
+            <div class="eyebrow">Como funciona</div>
+            <h2>Do "não sei por onde começar" ao plano da semana.</h2>
+          </div>
+          <div class="author-card-body">
+            <p>
+              <strong>1. Abra o app.</strong> Sem cadastro: o painel já abre com o resumo da semana e a sua
+              próxima prioridade em destaque.
+            </p>
+            <p>
+              <strong>2. Monte sua rotina.</strong> Adicione blocos no planner, escolha trilhas por matéria
+              e use o foco com Pomodoro para estudar em ciclos.
+            </p>
+            <p>
+              <strong>3. Acompanhe e ajuste.</strong> Faça simulados, marque as revisões e veja na tela de
+              progresso onde o plano precisa de mais atenção.
+            </p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section class="landing-final-cta" id="comecar">
+      <div class="container">
+        <div class="landing-final-card surface-card" data-reveal>
+          <div>
+            <div class="eyebrow">Começar</div>
+            <h2>Comece a estudar hoje.</h2>
+            <p>
+              Sem cadastro e sem custo. Abra o painel, monte a semana e deixe o Aprova+ organizar a sua
+              preparação para o ENEM e a UERJ.
+            </p>
+          </div>
+
+          <div class="final-cta-actions">
+            <a class="btn btn-primary" href="dashboard.html">Abrir o app</a>
+            <a class="btn btn-secondary" href="#recursos">Ver recursos</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>
+        <a class="brand" href="#home">
+          <img class="brand-mark" src="img/favicon.svg" alt="" width="28" height="28" />
+          <span>Aprova+</span>
+        </a>
+        <p>Plataforma de estudo para o ENEM e a UERJ — planner, foco, simulados e progresso num só lugar.</p>
+      </div>
+
+      <div class="footer-links">
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#comecar">Começar</a>
+        <a href="dashboard.html">Abrir o app</a>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

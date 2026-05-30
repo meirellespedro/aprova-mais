@@ -1,0 +1,17 @@
+{
+  "name": "Aprova+",
+  "short_name": "Aprova+",
+  "description": "Plataforma pre-vestibular para ENEM e UERJ.",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#f5efe2",
+  "theme_color": "#0e1724",
+  "icons": [
+    {
+      "src": "img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

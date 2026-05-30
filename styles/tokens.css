@@ -1,0 +1,66 @@
+:root {
+  --font-sans: "Manrope", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-display: "Space Grotesk", "Manrope", "Segoe UI", sans-serif;
+
+  --brand-clay: #b96839;
+  --brand-clay-deep: #6f381d;
+  --brand-teal: #0f766e;
+  --brand-teal-deep: #11443f;
+  --brand-sand-50: #fbf7ef;
+  --brand-sand-100: #f4ecde;
+  --brand-sand-200: #e8ddca;
+  --brand-ink-950: #0f1c2f;
+  --brand-ink-900: #16273b;
+  --brand-ink-800: #23374b;
+  --brand-ink-700: #31475d;
+  --brand-ink-500: #5a6a7b;
+  --brand-ink-400: #7a8798;
+  --brand-night-950: #0d1723;
+  --brand-night-900: #132231;
+  --brand-night-800: #1a2b3d;
+  --brand-night-700: #21364a;
+  --brand-night-600: #2b445c;
+  --success: #1d8b58;
+
+  /* raios apertados (editorial) — antes 10/14/18/24/32, cara de rounded-2xl */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* Escala de espaçamento — base consistente para gaps e paddings */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  /* Ritmo macro: respiro entre seções e padding interno dos cards */
+  /* aplicado em cima e embaixo de cada seção, então o espaço entre seções é 2x:
+     56px (mobile) a 80px (desktop) -> 112px a 160px de respiro entre blocos */
+  --section-space: clamp(56px, 5vw, 80px);
+  --card-pad: clamp(24px, 3vw, 32px);
+
+  /* Entrelinhas padronizadas por papel */
+  --leading-tight: 1.05;
+  --leading-body: 1.75;
+
+  /* sombras curtas + borda (sólido/editorial) — antes eram flutuações de 48-72px */
+  --shadow-soft: 0 1px 2px rgba(42, 38, 31, 0.06);
+  --shadow-card: 0 2px 6px rgba(24, 31, 41, 0.08);
+  --shadow-strong: 0 6px 18px rgba(16, 23, 33, 0.12);
+
+  --container: min(1180px, calc(100% - 40px));
+  --transition-fast: 180ms ease;
+  --transition-smooth: 260ms cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* FIX 1 (CSS): cor do anel de foco tokenizada (antes estava repetida como
+     rgba(15,118,110,0.18) em vários lugares). Opacidade subida de 0.18 -> 0.45
+     para atingir contraste suficiente (WCAG 2.4.11). Teste tabulando a página:
+     se o anel não "salta", aumente mais. */
+  --focus-ring: rgba(15, 118, 110, 0.45);
+}

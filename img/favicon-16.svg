@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100" role="img" aria-label="Aprova+">
+  <title>Aprova+</title>
+  <rect width="100" height="100" rx="24" fill="#0f1c2f"/>
+  <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M20 75 L40 25 L60 75" stroke="#f1e7d8" stroke-width="12"/>
+    <path d="M29 58 L51 58" stroke="#f1e7d8" stroke-width="12"/>
+    <path d="M78 33 L78 57 M66 45 L90 45" stroke="#b96839" stroke-width="11"/>
+  </g>
+</svg>

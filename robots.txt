@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+
+# Painel é por aluno (estado local) e não deve ser indexado.
+Disallow: /dashboard.html
+
+Sitemap: https://aprova-mais.pages.dev/sitemap.xml

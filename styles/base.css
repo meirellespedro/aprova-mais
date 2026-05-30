@@ -1,0 +1,556 @@
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 96px;
+}
+
+body {
+  --bg: var(--brand-sand-50);
+  --bg-accent: transparent;
+  --grid-line: rgba(15, 28, 47, 0.06);
+  --text: var(--brand-ink-950);
+  --muted: var(--brand-ink-500);
+  --muted-strong: var(--brand-ink-700);
+  --line: rgba(15, 28, 47, 0.12);
+  --line-strong: rgba(15, 28, 47, 0.2);
+  --surface: rgba(255, 255, 255, 0.9);
+  --surface-soft: rgba(255, 255, 255, 0.62);
+  --surface-strong: #fffaf2;
+  --shadow-page: var(--shadow-soft);
+  --shadow-panel: var(--shadow-card);
+  margin: 0;
+  /* FIX (detalhe): 100dvh em vez de 100vh evita o "salto" da barra de
+     endereço no mobile (dynamic viewport height). */
+  min-height: 100dvh;
+  font-family: var(--font-sans);
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.55;
+  letter-spacing: -0.01em;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: -2;
+}
+
+body::after {
+  z-index: -1;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+button {
+  -webkit-appearance: none; /* FIX (detalhe): prefixo p/ Safari antigo */
+  appearance: none;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+ul[role="list"] {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+::selection {
+  background: rgba(15, 118, 110, 0.18);
+  color: var(--text);
+}
+
+/* =============================================================================
+   FIX 1 (CSS, gravidade ALTA): anel de foco GLOBAL.
+   Antes: uma allowlist manual de seletores com outline:none + box-shadow.
+   Problema: qualquer elemento focável novo era esquecido na lista.
+   Agora: :where() aplica o anel a QUALQUER focável com especificidade ZERO,
+   então é trivial de sobrescrever em casos especiais.
+   O `outline: 2px solid transparent` é o fallback para o modo de alto contraste
+   forçado (forced-colors), onde box-shadow é descartado pelo SO.
+   ============================================================================= */
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 3px var(--focus-ring);
+}
+
+@media (forced-colors: active) {
+  /* No alto contraste, deixa o SO desenhar o foco com a cor do sistema. */
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline-color: Highlight;
+  }
+}
+
+.container {
+  width: var(--container);
+  margin-inline: auto;
+}
+
+.skip-link {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  z-index: 120;
+  padding: 10px 14px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-strong);
+  color: var(--text);
+  transform: translateY(-150%);
+  transition: transform var(--transition-fast);
+}
+
+.skip-link:focus-visible {
+  transform: translateY(0);
+  /* herda o anel global do FIX 1 */
+}
+
+/* FIX (detalhe): .sr-only modernizada (clip legado + clip-path + nowrap). */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.surface-card,
+.surface-subtle {
+  border: 1px solid var(--line);
+  background: var(--surface);
+  box-shadow: var(--shadow-panel);
+}
+
+.surface-card {
+  border-radius: var(--radius-lg);
+}
+
+.surface-subtle {
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+}
+
+.brand,
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.05em;
+}
+
+.spark {
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 9px;
+  background: linear-gradient(135deg, var(--brand-clay), var(--brand-teal));
+  color: #fff7f1;
+}
+
+.brand-mark {
+  width: 30px;
+  height: 30px;
+  border-radius: 9px;
+  display: block;
+  flex: 0 0 auto;
+}
+
+.eyebrow,
+.module-kicker,
+.workspace-label,
+.section-chip,
+.status-pill,
+.subject-tag,
+.module-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 32px;
+  padding: 0 12px;
+  border-radius: var(--radius-sm);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* eyebrow não é mais pílula: vira rótulo editorial com um tracinho à esquerda */
+.eyebrow {
+  min-height: 0;
+  padding: 0;
+  gap: 9px;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  letter-spacing: 0.16em;
+  font-size: 12px;
+}
+
+.eyebrow::before {
+  content: "";
+  width: 24px;
+  height: 2px;
+  background: currentColor;
+}
+
+.section-heading {
+  max-width: 780px;
+  margin-bottom: 30px;
+}
+
+.section-heading h2,
+.dashboard-heading h2 {
+  margin: 14px 0 12px;
+  font-size: clamp(34px, 4.5vw, 58px);
+  line-height: 0.95;
+  letter-spacing: -0.075em;
+  text-wrap: balance;
+}
+
+.section-heading p,
+.dashboard-heading p,
+.topbar-copy {
+  margin: 0;
+  color: var(--muted);
+  font-size: 16px;
+  line-height: var(--leading-body);
+  text-wrap: pretty;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 22px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line-strong);
+  background: var(--surface-strong);
+  color: var(--text);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast),
+    transform var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.btn:hover {
+  box-shadow: 0 2px 6px rgba(20, 26, 36, 0.12);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn:disabled,
+.mock-option:disabled,
+.icon-button:disabled {
+  opacity: 0.56;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.btn-primary {
+  border-color: rgba(15, 28, 47, 0.12);
+  background: var(--brand-ink-950);
+  color: #fffaf2;
+}
+
+.btn-primary:hover {
+  background: var(--brand-ink-900);
+  border-color: rgba(15, 28, 47, 0.18);
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.96);
+}
+
+.btn-ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--muted-strong);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  box-shadow: none;
+}
+
+.btn-block {
+  width: 100%;
+}
+
+/* FIX 1 (CSS): a antiga allowlist de :focus-visible foi REMOVIDA daqui.
+   O anel agora é global (ver topo do arquivo). */
+
+/* FIX 4 (JS/HTML): o delay do reveal vem de uma custom property fornecida pelo JS,
+   em vez de style inline. Default 0ms se o JS não setar. */
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(24px);
+  transition-property: opacity, transform;
+  transition-duration: 480ms, 520ms;
+  transition-timing-function: ease, cubic-bezier(0.16, 1, 0.3, 1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  padding-top: 18px;
+}
+
+.header-inner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  min-height: 74px;
+  padding: 0 20px;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  transition:
+    background var(--transition-fast),
+    border-color var(--transition-fast),
+    box-shadow var(--transition-fast);
+}
+
+.header-inner > * {
+  min-width: 0;
+}
+
+.site-nav ul {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.site-nav a {
+  font-size: 14px;
+  font-weight: 600;
+  transition: color var(--transition-fast), opacity var(--transition-fast);
+}
+
+.site-nav .nav-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  padding: 0 18px;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.56);
+  color: var(--text);
+  transition:
+    border-color var(--transition-fast),
+    background var(--transition-fast),
+    color var(--transition-fast);
+}
+
+.site-nav .nav-cta:hover {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: var(--line-strong);
+}
+
+.menu-toggle {
+  display: none;
+  flex: 0 0 auto;
+  min-height: 44px;
+  padding: 0 16px;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--line);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.landing-page.menu-open {
+  overflow: hidden;
+}
+
+.footer-inner {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  align-items: flex-end;
+}
+
+.footer-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  row-gap: 12px;
+  align-items: center;
+}
+
+@media (max-width: 960px) {
+  .site-nav {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    right: 0;
+    padding: 18px;
+    border-radius: var(--radius-lg);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--transition-fast),
+      transform var(--transition-fast),
+      visibility var(--transition-fast);
+  }
+
+  .site-nav ul {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .site-nav a {
+    display: flex;
+    align-items: center;
+    min-height: 48px;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .menu-open .site-nav {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .footer-inner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+@media (max-width: 720px) {
+  .container {
+    width: min(100% - 24px, 100%);
+  }
+
+  .header-inner {
+    min-height: 68px;
+    padding: 0 16px;
+  }
+
+  .section-heading h2,
+  .dashboard-heading h2 {
+    font-size: clamp(32px, 10vw, 46px);
+  }
+}
+
+@media (max-width: 560px) {
+  .brand {
+    gap: 8px;
+    font-size: 19px;
+  }
+
+  .brand-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header-inner {
+    gap: 12px;
+    padding: 0 12px;
+  }
+
+  .menu-toggle {
+    min-height: 42px;
+    padding: 0 14px;
+  }
+}
+
+@media (max-width: 480px) {
+  .container {
+    width: min(100% - 20px, 100%);
+  }
+}
+
+/* =============================================================================
+   FIX 2 (CSS): reduced-motion CIRÚRGICO.
+   Antes: transition:none !important em tudo (marreta — mata até feedbacks úteis
+   e pode travar callbacks de transitionend no JS).
+   Agora: encurta a duração para ~instantâneo (0.01ms) em vez de remover, e
+   neutraliza só o MOVIMENTO (translate) do reveal, que é o gatilho vestibular real.
+   ============================================================================= */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}

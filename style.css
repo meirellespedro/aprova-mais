@@ -1,0 +1,6 @@
+@layer tokens, base, landing, dashboard;
+
+@import url("./styles/tokens.css") layer(tokens);
+@import url("./styles/base.css") layer(base);
+@import url("./styles/landing.css") layer(landing);
+@import url("./styles/dashboard.css") layer(dashboard);
