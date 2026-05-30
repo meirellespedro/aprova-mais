@@ -28,7 +28,7 @@
 .dashboard-page .module-kicker,
 .dashboard-page .module-badge,
 .dashboard-page .status-pill {
-  color: #e7c9b6;
+  color: var(--brand-clay);
   background: none;
   border: 0;
   min-height: 0;
@@ -36,7 +36,7 @@
 }
 
 .dashboard-page .eyebrow {
-  color: #e7c9b6;
+  color: var(--brand-clay);
   background: none;
   border: 0;
 }
@@ -171,6 +171,7 @@
 .status-dot {
   width: 10px;
   height: 10px;
+  flex-shrink: 0;
   border-radius: 50%;
   background: var(--success);
 }
@@ -389,17 +390,11 @@
   font-size: 14px;
 }
 
-.priority-item[data-tone="action"] {
-  border-left: 4px solid rgba(132, 190, 255, 0.86);
-}
-
-.priority-item[data-tone="review"] {
-  border-left: 4px solid rgba(255, 206, 150, 0.9);
-}
-
+.priority-item[data-tone="action"],
+.priority-item[data-tone="review"],
 .priority-item[data-tone="balance"],
 .priority-item[data-tone="exam"] {
-  border-left: 4px solid rgba(126, 241, 216, 0.74);
+  border-left: 4px solid var(--brand-clay);
 }
 
 .milestone-item {
@@ -632,7 +627,7 @@
 .exam-helper-link:hover {
   border-color: rgba(15, 118, 110, 0.28);
   background: rgba(15, 118, 110, 0.08);
-  color: #f6fbff;
+  color: #fffaf2;
 }
 
 .trail-explorer {
@@ -695,7 +690,7 @@
   height: 100%;
   width: 0;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--brand-clay), var(--brand-teal));
+  background: linear-gradient(90deg, var(--brand-clay), var(--brand-clay-deep));
   transition: width var(--transition-smooth);
 }
 
@@ -863,9 +858,9 @@
   min-height: 24px;
   padding: 0 10px;
   border-radius: var(--radius-sm);
-  border: 1px solid rgba(79, 140, 255, 0.2);
-  background: rgba(79, 140, 255, 0.08);
-  color: #b9d2ff;
+  border: 1px solid rgba(15, 118, 110, 0.28);
+  background: rgba(15, 118, 110, 0.08);
+  color: var(--muted-strong);
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.08em;
@@ -1498,15 +1493,15 @@
 }
 
 .study-path-card[data-path="enem"] {
-  border-left: 4px solid rgba(132, 190, 255, 0.9);
+  border-left: 4px solid var(--brand-teal);
 }
 
 .study-path-card[data-path="uerj-qualificacao"] {
-  border-left: 4px solid rgba(255, 204, 145, 0.96);
+  border-left: 4px solid var(--brand-clay);
 }
 
 .study-path-card[data-path="uerj-discursiva"] {
-  border-left: 4px solid rgba(126, 241, 216, 0.82);
+  border-left: 4px solid var(--brand-ink-400);
 }
 
 .study-path-head,
@@ -1801,15 +1796,15 @@
 }
 
 .session-card[data-track="enem"] {
-  border-left: 4px solid rgba(132, 190, 255, 0.9);
+  border-left: 4px solid var(--brand-teal);
 }
 
 .session-card[data-track="uerj"] {
-  border-left: 4px solid rgba(255, 204, 145, 0.96);
+  border-left: 4px solid var(--brand-clay);
 }
 
 .session-card[data-track="hibrido"] {
-  border-left: 4px solid rgba(126, 241, 216, 0.82);
+  border-left: 4px solid var(--brand-ink-400);
 }
 
 .session-card strong {
@@ -1847,15 +1842,15 @@
 }
 
 .track-pill[data-track="enem"] {
-  color: #dfeeff;
+  color: var(--muted-strong);
 }
 
 .track-pill[data-track="uerj"] {
-  color: #ffe6c6;
+  color: var(--muted-strong);
 }
 
 .track-pill[data-track="hibrido"] {
-  color: #dafef5;
+  color: var(--muted-strong);
 }
 
 .session-actions {
@@ -1888,7 +1883,7 @@
 
 .mock-track span.is-active,
 .mock-track span.is-complete {
-  background: linear-gradient(90deg, var(--brand-clay), var(--brand-teal));
+  background: linear-gradient(90deg, var(--brand-clay), var(--brand-clay-deep));
 }
 
 .mock-meta {
@@ -2057,21 +2052,21 @@
 }
 
 .bank-pill-track {
-  border-color: rgba(79, 140, 255, 0.32);
-  color: #cfe0ff;
-  background: rgba(79, 140, 255, 0.1);
+  border-color: rgba(15, 118, 110, 0.32);
+  color: var(--muted-strong);
+  background: rgba(15, 118, 110, 0.1);
 }
 
 .bank-pill-diff {
-  border-color: rgba(124, 58, 237, 0.32);
-  color: #e2d4ff;
-  background: rgba(124, 58, 237, 0.1);
+  border-color: rgba(185, 104, 57, 0.32);
+  color: var(--muted-strong);
+  background: rgba(185, 104, 57, 0.1);
 }
 
 .bank-pill-tipo {
-  border-color: rgba(249, 115, 22, 0.36);
-  color: #ffd9b8;
-  background: rgba(249, 115, 22, 0.12);
+  border-color: var(--line);
+  color: var(--muted);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 .bank-rubrica {
@@ -2092,11 +2087,11 @@
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.03em;
-  color: #9fb4d6;
+  color: var(--muted);
 }
 
 .bank-source-autoral {
-  color: #8fcaa9;
+  color: var(--brand-teal);
 }
 
 .bank-question-prompt {
@@ -2150,24 +2145,24 @@
 }
 
 .bank-option.is-correct {
-  border-color: rgba(34, 197, 94, 0.5);
-  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(29, 139, 88, 0.5);
+  background: rgba(29, 139, 88, 0.12);
 }
 
 .bank-option.is-correct .bank-option-letter {
-  border-color: rgba(34, 197, 94, 0.5);
-  background: rgba(34, 197, 94, 0.2);
+  border-color: rgba(29, 139, 88, 0.5);
+  background: rgba(29, 139, 88, 0.2);
   color: #b5f0d0;
 }
 
 .bank-option.is-wrong {
-  border-color: rgba(248, 113, 113, 0.5);
-  background: rgba(248, 113, 113, 0.12);
+  border-color: rgba(210, 75, 62, 0.5);
+  background: rgba(210, 75, 62, 0.12);
 }
 
 .bank-option.is-wrong .bank-option-letter {
-  border-color: rgba(248, 113, 113, 0.5);
-  background: rgba(248, 113, 113, 0.2);
+  border-color: rgba(210, 75, 62, 0.5);
+  background: rgba(210, 75, 62, 0.2);
   color: #ffd4d4;
 }
 
@@ -2201,11 +2196,11 @@
 }
 
 .bank-verdict.is-correct {
-  color: #6ee7a8;
+  color: var(--success);
 }
 
 .bank-verdict.is-wrong {
-  color: #fca5a5;
+  color: var(--danger);
 }
 
 .question-bank-empty {
@@ -2229,7 +2224,7 @@
   border-radius: 50%;
   display: grid;
   place-items: center;
-  background: conic-gradient(var(--brand-teal) calc(var(--progress) * 1%), rgba(255, 255, 255, 0.12) 0);
+  background: conic-gradient(var(--brand-clay) calc(var(--progress) * 1%), rgba(255, 255, 255, 0.12) 0);
 }
 
 .readiness-ring > div {
@@ -2939,7 +2934,7 @@ body.is-onboarding {
   display: block;
   height: 100%;
   border-radius: 999px;
-  background: linear-gradient(90deg, var(--brand-clay), var(--brand-teal));
+  background: linear-gradient(90deg, var(--brand-clay), var(--brand-clay-deep));
 }
 
 .weak-point-empty {
@@ -3233,7 +3228,7 @@ body.is-onboarding {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--peso-accent, var(--brand-clay));
+  background: var(--brand-clay);
 }
 
 .onboarding-datas {
@@ -3528,5 +3523,5 @@ body.is-onboarding {
   display: block;
   width: 100%;
   border-radius: var(--radius-xs);
-  background: linear-gradient(180deg, var(--brand-teal), var(--brand-clay));
+  background: linear-gradient(180deg, var(--brand-clay), var(--brand-clay-deep));
 }

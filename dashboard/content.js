@@ -40,7 +40,7 @@ export const SUBJECTS = [
   {
     id: "matematica",
     label: "Matemática",
-    accent: "linear-gradient(90deg, #7c3aed, #4f8cff)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Exatas",
     priorityEnem: "Altíssima",
     priorityUerj: "Altíssima",
@@ -52,7 +52,7 @@ export const SUBJECTS = [
   {
     id: "fisica",
     label: "Física",
-    accent: "linear-gradient(90deg, #14b8a6, #4f8cff)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Natureza",
     priorityEnem: "Alta",
     priorityUerj: "Alta",
@@ -64,7 +64,7 @@ export const SUBJECTS = [
   {
     id: "quimica",
     label: "Química",
-    accent: "linear-gradient(90deg, #4f8cff, #14b8a6)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Natureza",
     priorityEnem: "Alta",
     priorityUerj: "Alta",
@@ -76,7 +76,7 @@ export const SUBJECTS = [
   {
     id: "biologia",
     label: "Biologia",
-    accent: "linear-gradient(90deg, #22c55e, #14b8a6)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Natureza",
     priorityEnem: "Altíssima",
     priorityUerj: "Alta",
@@ -88,7 +88,7 @@ export const SUBJECTS = [
   {
     id: "historia",
     label: "História",
-    accent: "linear-gradient(90deg, #fb7185, #7c3aed)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Humanas",
     priorityEnem: "Alta",
     priorityUerj: "Alta",
@@ -100,7 +100,7 @@ export const SUBJECTS = [
   {
     id: "geografia",
     label: "Geografia",
-    accent: "linear-gradient(90deg, #14b8a6, #0ea5e9)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Humanas",
     priorityEnem: "Alta",
     priorityUerj: "Alta",
@@ -112,7 +112,7 @@ export const SUBJECTS = [
   {
     id: "portugues",
     label: "Português",
-    accent: "linear-gradient(90deg, #f97316, #fb7185)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Linguagens",
     priorityEnem: "Altíssima",
     priorityUerj: "Altíssima",
@@ -124,7 +124,7 @@ export const SUBJECTS = [
   {
     id: "literatura",
     label: "Literatura",
-    accent: "linear-gradient(90deg, #d97706, #f97316)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Linguagens",
     priorityEnem: "Média alta",
     priorityUerj: "Alta",
@@ -136,7 +136,7 @@ export const SUBJECTS = [
   {
     id: "redacao",
     label: "Redação",
-    accent: "linear-gradient(90deg, #f59e0b, #7c3aed)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Linguagens",
     priorityEnem: "Altíssima",
     priorityUerj: "Altíssima",
@@ -148,7 +148,7 @@ export const SUBJECTS = [
   {
     id: "filosofia",
     label: "Filosofia",
-    accent: "linear-gradient(90deg, #8b5cf6, #ec4899)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Humanas",
     priorityEnem: "Média alta",
     priorityUerj: "Média",
@@ -160,7 +160,7 @@ export const SUBJECTS = [
   {
     id: "sociologia",
     label: "Sociologia",
-    accent: "linear-gradient(90deg, #0f766e, #22c55e)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Humanas",
     priorityEnem: "Média alta",
     priorityUerj: "Média alta",
@@ -172,7 +172,7 @@ export const SUBJECTS = [
   {
     id: "ingles",
     label: "Inglês",
-    accent: "linear-gradient(90deg, #2563eb, #38bdf8)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Linguagens",
     priorityEnem: "Média",
     priorityUerj: "Curso especifico",
@@ -184,7 +184,7 @@ export const SUBJECTS = [
   {
     id: "espanhol",
     label: "Espanhol",
-    accent: "linear-gradient(90deg, #0ea5e9, #22c55e)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Linguagens",
     priorityEnem: "Média",
     priorityUerj: "Curso especifico",
@@ -196,7 +196,7 @@ export const SUBJECTS = [
   {
     id: "metodo-uerj",
     label: "Estratégia UERJ Discursiva",
-    accent: "linear-gradient(90deg, #b96839, #0f766e)",
+    accent: "linear-gradient(90deg, #b96839, #6f381d)",
     group: "Estratégia",
     priorityEnem: "Não cai",
     priorityUerj: "Altíssima",

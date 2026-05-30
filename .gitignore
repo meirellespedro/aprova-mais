@@ -5,4 +5,4 @@ coverage/
 tmp-*
 
 .wrangler/
-deploy-static/.wrangler/
+deploy-static/
