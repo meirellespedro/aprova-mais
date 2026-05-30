@@ -1,5 +1,6 @@
 import { dom } from "./dom.js";
 import { bindEvents, initOnboarding, primeInterface, resetSessionForm, syncPomodoroFromClock } from "./interactions.js";
+import { bindRedacaoAI } from "./redacao-ai.js";
 import { state } from "./store.js";
 import { renderDashboard, updateMockTimer } from "./renderers.js";
 
@@ -63,6 +64,7 @@ const syncMockTicker = () => {
 
 primeInterface();
 bindEvents();
+bindRedacaoAI();
 resetSessionForm();
 renderDashboard();
 syncPomodoroTicker();

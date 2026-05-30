@@ -20,6 +20,7 @@ const FILES = [
   "site.webmanifest",
   "og-image.svg",
   "functions/api/exam-download.js",
+  "functions/api/corrigir-redacao.js",
 ];
 
 // Pastas espelhadas por completo (apenas os arquivos diretos de cada uma).

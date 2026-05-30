@@ -1,0 +1,4 @@
+# Exemplo de variáveis locais para `npx wrangler pages dev`.
+# Copie para `.dev.vars` (gitignored) e preencha com sua chave real do Gemini.
+# Gere a chave em https://aistudio.google.com/apikey
+GEMINI_API_KEY=cole-sua-chave-aqui

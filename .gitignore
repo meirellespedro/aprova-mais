@@ -6,3 +6,6 @@ tmp-*
 
 .wrangler/
 deploy-static/
+
+# Secrets locais das Cloudflare Functions (ex.: GEMINI_API_KEY) — nunca versionar
+.dev.vars

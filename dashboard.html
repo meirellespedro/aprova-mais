@@ -860,8 +860,34 @@
                 </div>
                 <p data-redacao-band>Preencha as competências para ver a leitura.</p>
               </div>
-              <p class="redacao-note">A nota é uma <strong>autoavaliação guiada</strong> — uma referência para evoluir, não a correção oficial. Correção por IA e por professores está no nosso roadmap.</p>
+              <p class="redacao-note">A nota é uma <strong>autoavaliação guiada</strong> — uma referência para evoluir, não a correção oficial.</p>
             </aside>
+          </div>
+
+          <div class="redacao-ai surface-card">
+            <div class="redacao-ai-head">
+              <div>
+                <span class="redacao-ai-kicker">Correção por IA</span>
+                <h3 class="redacao-subtitle">Cole sua redação e receba uma correção por competência</h3>
+                <p class="redacao-ai-intro">Escreva no formato da prova selecionada acima e envie. A IA devolve uma nota e um comentário para cada competência — use como referência de estudo, não como nota oficial.</p>
+              </div>
+            </div>
+            <label class="redacao-ai-field">
+              <span class="field-label">Sua redação</span>
+              <textarea
+                data-redacao-texto
+                rows="12"
+                maxlength="6000"
+                placeholder="Cole ou digite aqui o texto que você escreveu (mínimo ~8 linhas; ideal 25–30)…"
+              ></textarea>
+            </label>
+            <div class="redacao-ai-actions">
+              <span class="redacao-ai-count" data-redacao-count>0 caracteres</span>
+              <button class="btn btn-primary" type="button" data-redacao-corrigir>Corrigir com IA</button>
+            </div>
+            <p class="redacao-ai-status" data-redacao-ai-status hidden></p>
+            <div class="redacao-ai-result" data-redacao-ai-result hidden></div>
+            <p class="redacao-note">A correção é gerada por inteligência artificial e pode conter imprecisões — vale como treino e diagnóstico, não substitui a banca.</p>
           </div>
         </section>
 
