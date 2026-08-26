@@ -73,11 +73,11 @@ cd aprova-mais
 
 ## 📷 Screenshots
 
-> _Adicione aqui um print da tela principal e da correção de redação._
-> _Dica: salve as imagens numa pasta `/screenshots` e referencie com `![Descrição](screenshots/arquivo.png)`._
+![Painel do Aprova+](img/preview.png)
+*O painel do Aprova+ — pontos fracos do dia, plano de estudo e próxima prova em uma tela.*
 
 ## 👤 Autor
 
 **Pedro Meirelles** — Desenvolvedor Full-Stack
 
-[Portfólio](https://meirellespedro.github.io/portfoliomeirelles/) · [LinkedIn](https://www.linkedin.com/in/pedromei2019) · [GitHub](https://github.com/meirellespedro)
+[Portfólio](https://meirellespedro.github.io/portfoliomeirelles/) · [LinkedIn](https://www.linkedin.com/in/pedro-meirelles-almeida) · [GitHub](https://github.com/meirellespedro)
