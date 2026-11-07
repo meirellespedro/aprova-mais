@@ -7,7 +7,7 @@
 // Mesmo espírito do proxy em functions/api/exam-download.js: validar a entrada,
 // falar com a origem e devolver só o necessário, com mensagens de erro em pt-BR.
 
-const GEMINI_MODEL = "gemini-2.5-flash";
+const GEMINI_MODEL = "gemini-3.1-flash-lite";
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
 // Piso de avaliação: 7 linhas ou menos zeram a redação no ENEM ("texto
@@ -117,7 +117,7 @@ const buildResponseSchema = (rubrica) => ({
 });
 
 export async function onRequestPost(context) {
-  const apiKey = context.env.GEMINI_API_KEY;
+  const apiKey = context.env.GEMINI_API_KEY?.trim();
   if (!apiKey) {
     return buildError("Correção por IA indisponível: a chave do Gemini não está configurada.", 503);
   }
@@ -147,7 +147,7 @@ export async function onRequestPost(context) {
   const geminiBody = {
     contents: [{ role: "user", parts: [{ text: buildPrompt(rubrica, texto, tema) }] }],
     generationConfig: {
-      temperature: 0.4,
+      thinkingConfig: { thinkingLevel: "low" },
       responseMimeType: "application/json",
       responseSchema: buildResponseSchema(rubrica),
     },
@@ -155,10 +155,11 @@ export async function onRequestPost(context) {
 
   let upstream;
   try {
-    upstream = await fetch(`${GEMINI_ENDPOINT}?key=${apiKey}`, {
+    upstream = await fetch(GEMINI_ENDPOINT, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "application/json", "x-goog-api-key": apiKey },
       body: JSON.stringify(geminiBody),
+      signal: AbortSignal.timeout(60000),
     });
   } catch {
     return buildError("Não foi possível falar com o serviço de IA. Tente de novo.", 502);
@@ -181,7 +182,9 @@ export async function onRequestPost(context) {
     return buildError("Resposta inválida do serviço de IA.", 502);
   }
 
-  const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  const raw = data?.candidates?.[0]?.content?.parts
+    ?.filter((part) => !part.thought && typeof part.text === "string")
+    .map((part) => part.text).join("");
   if (!raw) {
     return buildError("A IA não retornou uma correção. Tente reescrever e enviar de novo.", 502);
   }
