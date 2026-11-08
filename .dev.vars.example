@@ -2,3 +2,15 @@
 # Copie para `.dev.vars` (gitignored) e preencha com sua chave real do Gemini.
 # Gere a chave em https://aistudio.google.com/apikey
 GEMINI_API_KEY=cole-sua-chave-aqui
+
+# Proteção de uso do endpoint de IA. Em produção, crie um namespace KV e faça o
+# binding com o nome RATE_LIMIT_KV (sem ele o endpoint responde 503).
+# Só para desenvolvimento local sem KV: usa memória NÃO persistente.
+RATE_LIMIT_ALLOW_MEMORY=1
+# Opcionais (valores padrão entre parênteses):
+# RATE_LIMIT_IP_SHORT=5        (correções por IP a cada 10 min)
+# RATE_LIMIT_IP_DAILY=20       (correções por IP por dia)
+# RATE_LIMIT_GLOBAL_DAILY=400  (teto diário da plataforma inteira)
+# RATE_LIMIT_SALT=troque-isto  (sal do hash de IP)
+# ALLOWED_ORIGINS=https://seu-dominio.com.br
+# TURNSTILE_SECRET_KEY=        (ativa verificação anti-robô do Cloudflare Turnstile)

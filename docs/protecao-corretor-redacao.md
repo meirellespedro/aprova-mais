@@ -7,9 +7,12 @@ de ler o corpo da requisição:
 1. **Origin** — só aceita chamadas do próprio site. Para liberar outro domínio
    (ex.: domínio próprio), defina a variável `ALLOWED_ORIGINS` no Cloudflare,
    separando por vírgula: `https://aprova.seudominio.com.br`.
-2. **Limite por IP** — usa o binding de Rate Limiting do Cloudflare com o nome
-   `REDACAO_RATE_LIMITER`. Sem o binding, o endpoint continua funcionando só
-   com a camada 1 (o código é fail-open de propósito).
+2. **Limite por IP (opcional)** — usa o binding de Rate Limiting do Cloudflare com o nome
+   `REDACAO_RATE_LIMITER`. É fail-open: sem o binding, vale a camada 3.
+3. **Limite persistente em KV (obrigatório)** — por IP e teto global diário, com
+   validação do corpo e cache de resultado. Sem o binding `RATE_LIMIT_KV` o endpoint
+   responde 503 (fail-closed). Detalhes e configuração em
+   [`seguranca-redacao-ia.md`](seguranca-redacao-ia.md).
 
 ## Ativar o limite por IP
 

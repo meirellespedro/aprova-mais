@@ -1,5 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { onRequestPost } from "../functions/api/corrigir-redacao.js";
+import { createMemoryStore } from "../functions/_shared/redacao-guard.js";
 
 const SITE = "https://aprova-mais.pages.dev";
 const TEXTO_VALIDO = "Argumento consistente sobre o tema proposto. ".repeat(15);
@@ -43,7 +44,8 @@ function criarContexto({ origin = SITE, ip = "203.0.113.7", env = {}, body } = {
       headers,
       body: JSON.stringify(body ?? { texto: TEXTO_VALIDO, prova: "enem" }),
     }),
-    env: { GEMINI_API_KEY: "chave-de-teste", ...env },
+    // RATE_LIMIT_KV: o limite persistente (camada principal) exige o binding KV.
+    env: { GEMINI_API_KEY: "chave-de-teste", RATE_LIMIT_KV: createMemoryStore(), ...env },
   };
 }
 
