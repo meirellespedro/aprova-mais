@@ -116,7 +116,13 @@ const corrigir = async () => {
     const response = await fetch("/api/corrigir-redacao", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ texto, prova, tema }),
+      // Se o widget do Cloudflare Turnstile estiver na página, envia o token junto.
+      body: JSON.stringify({
+        texto,
+        prova,
+        tema,
+        turnstileToken: document.querySelector('[name="cf-turnstile-response"]')?.value || undefined,
+      }),
     });
 
     const data = await response.json().catch(() => ({}));

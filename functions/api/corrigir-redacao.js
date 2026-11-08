@@ -7,6 +7,21 @@
 // Mesmo espírito do proxy em functions/api/exam-download.js: validar a entrada,
 // falar com a origem e devolver só o necessário, com mensagens de erro em pt-BR.
 
+import {
+  checkRateLimits,
+  getClientIp,
+  hashIdentifier,
+  readCachedResult,
+  readJsonBody,
+  resolveLimits,
+  resolveStore,
+  resultCacheKey,
+  validatePayload,
+  validateRequestShape,
+  verifyTurnstile,
+  writeCachedResult,
+} from "../_shared/redacao-guard.js";
+
 const GEMINI_MODEL = "gemini-3.1-flash-lite";
 const GEMINI_ENDPOINT = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
 
@@ -62,14 +77,14 @@ const jsonResponse = (payload, status = 200) =>
 
 const buildError = (message, status) => jsonResponse({ error: message }, status);
 
-// Proteção da cota do Gemini. Duas camadas, ambas antes de ler o corpo:
+// Camadas baratas, antes de ler o corpo (complementam o rate limit persistente
+// em KV de ../_shared/redacao-guard.js, que é a defesa principal e falha fechado):
 // 1) Origin: só o próprio site (ou origens extras em env.ALLOWED_ORIGINS,
 //    separadas por vírgula) pode chamar. Barra embutir o endpoint em outro site
 //    e scripts ingênuos; não é autenticação, por isso existe a camada 2.
-// 2) Limite por IP via binding de Rate Limiting do Cloudflare
-//    (env.REDACAO_RATE_LIMITER). Sem o binding, ou se ele falhar, o recurso
-//    continua funcionando (fail-open) — correção de redação não pode cair por
-//    causa da proteção.
+// 2) Limite por IP opcional via binding nativo de Rate Limiting do Cloudflare
+//    (env.REDACAO_RATE_LIMITER). Fail-open: se o binding faltar ou falhar, o
+//    limite persistente em KV (camada seguinte) continua valendo.
 const isOriginAllowed = (request, env) => {
   const origin = request.headers.get("Origin");
   if (!origin) return false;
@@ -152,39 +167,72 @@ const buildResponseSchema = (rubrica) => ({
 });
 
 export async function onRequestPost(context) {
-  const apiKey = context.env.GEMINI_API_KEY?.trim();
+  const { request, env = {} } = context;
+  const apiKey = env.GEMINI_API_KEY?.trim();
   if (!apiKey) {
     return buildError("Correção por IA indisponível: a chave do Gemini não está configurada.", 503);
   }
 
-  if (!isOriginAllowed(context.request, context.env)) {
+  if (!isOriginAllowed(request, env)) {
     return buildError("Origem não autorizada.", 403);
   }
 
-  if (await isRateLimited(context.request, context.env)) {
+  if (await isRateLimited(request, env)) {
     return buildError("Muitas correções em pouco tempo. Aguarde um minuto e tente de novo.", 429);
   }
 
-  let body;
-  try {
-    body = await context.request.json();
-  } catch {
-    return buildError("Corpo da requisição inválido (esperado JSON).", 400);
+  // 1. Formato da requisição (barato, antes de qualquer I/O).
+  const shapeError = validateRequestShape(request, env);
+  if (shapeError) {
+    return buildError(shapeError.message, shapeError.status);
   }
 
-  const provaKey = body?.prova === "uerj" ? "uerj" : "enem";
+  const { body, error: bodyError } = await readJsonBody(request);
+  if (bodyError) {
+    return buildError(bodyError.message, bodyError.status);
+  }
+
+  const { value: payload, error: payloadError } = validatePayload(body, {
+    minChars: MIN_CHARS,
+    maxChars: MAX_CHARS,
+  });
+  if (payloadError) {
+    return buildError(payloadError.message, payloadError.status);
+  }
+
+  const { prova: provaKey, texto, tema } = payload;
   const rubrica = RUBRICAS[provaKey];
-  const texto = typeof body?.texto === "string" ? body.texto.trim() : "";
-  const tema = typeof body?.tema === "string" ? body.tema.trim().slice(0, 300) : "";
 
-  if (texto.length < MIN_CHARS) {
-    return buildError(
-      `Texto muito curto: escreva ao menos ${MIN_CHARS} caracteres (~8 linhas). No ENEM, 7 linhas ou menos zeram a redação.`,
-      400
-    );
+  // 2. Armazenamento persistente obrigatório: sem ele, falha fechado.
+  const { store } = resolveStore(env);
+  if (!store) {
+    return buildError("Correção por IA indisponível: proteção de uso não configurada.", 503);
   }
-  if (texto.length > MAX_CHARS) {
-    return buildError(`Texto longo demais (máximo ${MAX_CHARS} caracteres).`, 400);
+
+  // 3. Turnstile, se configurado.
+  const ip = getClientIp(request);
+  const turnstileSecret = env.TURNSTILE_SECRET_KEY?.trim();
+  if (turnstileSecret) {
+    const human = await verifyTurnstile({ secret: turnstileSecret, token: payload.turnstileToken, ip });
+    if (!human) {
+      return buildError("Verificação anti-robô falhou. Recarregue a página e tente de novo.", 403);
+    }
+  }
+
+  // 4. Mesma redação já corrigida: devolve o cache sem gastar cota do Gemini.
+  const cacheKey = await resultCacheKey({ prova: provaKey, tema, texto });
+  const cached = await readCachedResult(store, cacheKey);
+  if (cached) {
+    return jsonResponse({ ...cached, cache: true });
+  }
+
+  // 5. Rate limit persistente (por IP e global).
+  const ipHash = await hashIdentifier(ip, env.RATE_LIMIT_SALT || "aprova-mais");
+  const verdict = await checkRateLimits(store, { ipHash, limits: resolveLimits(env) });
+  if (!verdict.allowed) {
+    const response = buildError(verdict.message, 429);
+    response.headers.set("Retry-After", String(verdict.retryAfter));
+    return response;
   }
 
   const geminiBody = {
@@ -254,7 +302,7 @@ export async function onRequestPost(context) {
   });
   const total = competencias.reduce((sum, c) => sum + c.nota, 0);
 
-  return jsonResponse({
+  const result = {
     prova: provaKey,
     max: rubrica.max,
     total,
@@ -264,5 +312,8 @@ export async function onRequestPost(context) {
     comentarioGeral: typeof parsed.comentarioGeral === "string" ? parsed.comentarioGeral : "",
     pontosFortes: Array.isArray(parsed.pontosFortes) ? parsed.pontosFortes.slice(0, 6) : [],
     pontosFracos: Array.isArray(parsed.pontosFracos) ? parsed.pontosFracos.slice(0, 6) : [],
-  });
+  };
+
+  await writeCachedResult(store, cacheKey, result);
+  return jsonResponse(result);
 }

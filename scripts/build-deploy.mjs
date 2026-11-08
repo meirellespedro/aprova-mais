@@ -21,6 +21,7 @@ const FILES = [
   "og-image.svg",
   "functions/api/exam-download.js",
   "functions/api/corrigir-redacao.js",
+  "functions/_shared/redacao-guard.js",
 ];
 
 // Pastas espelhadas por completo (apenas os arquivos diretos de cada uma).
