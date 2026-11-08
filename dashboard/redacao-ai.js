@@ -64,6 +64,7 @@ const renderResult = (data, aviso = "") => {
   dom.redacaoAiResult.hidden = false;
   dom.redacaoAiResult.innerHTML = `
     ${aviso ? `<p class="redacao-ai-aviso">${escapeHTML(aviso)}</p>` : ""}
+    ${data.alertaManipulacao ? `<p class="redacao-ai-aviso">Encontramos no texto trechos que parecem instruções ao corretor (ex.: pedir nota). Eles não mudam a avaliação e contam como fuga ao gênero dissertativo.</p>` : ""}
     <div class="redacao-ai-score surface-subtle">
       <span class="redacao-ai-score-label">Nota estimada pela IA</span>
       <strong>${data.total} / ${data.totalMax}</strong>
