@@ -9,3 +9,6 @@ deploy-static/
 
 # Secrets locais das Cloudflare Functions (ex.: GEMINI_API_KEY) — nunca versionar
 .dev.vars
+
+# Configuração local do Claude Code — não versionar
+.claude/settings.local.json

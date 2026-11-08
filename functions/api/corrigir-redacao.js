@@ -62,6 +62,41 @@ const jsonResponse = (payload, status = 200) =>
 
 const buildError = (message, status) => jsonResponse({ error: message }, status);
 
+// Proteção da cota do Gemini. Duas camadas, ambas antes de ler o corpo:
+// 1) Origin: só o próprio site (ou origens extras em env.ALLOWED_ORIGINS,
+//    separadas por vírgula) pode chamar. Barra embutir o endpoint em outro site
+//    e scripts ingênuos; não é autenticação, por isso existe a camada 2.
+// 2) Limite por IP via binding de Rate Limiting do Cloudflare
+//    (env.REDACAO_RATE_LIMITER). Sem o binding, ou se ele falhar, o recurso
+//    continua funcionando (fail-open) — correção de redação não pode cair por
+//    causa da proteção.
+const isOriginAllowed = (request, env) => {
+  const origin = request.headers.get("Origin");
+  if (!origin) return false;
+
+  const allowed = new Set([new URL(request.url).origin]);
+  String(env?.ALLOWED_ORIGINS || "")
+    .split(",")
+    .map((item) => item.trim())
+    .filter(Boolean)
+    .forEach((item) => allowed.add(item));
+
+  return allowed.has(origin);
+};
+
+const isRateLimited = async (request, env) => {
+  const limiter = env?.REDACAO_RATE_LIMITER;
+  if (!limiter || typeof limiter.limit !== "function") return false;
+
+  const ip = request.headers.get("CF-Connecting-IP") || "desconhecido";
+  try {
+    const { success } = await limiter.limit({ key: `redacao:${ip}` });
+    return success === false;
+  } catch {
+    return false;
+  }
+};
+
 const buildPrompt = (rubrica, texto, tema) => {
   const criteriosTexto = rubrica.criterios
     .map((c) => `- ${c.titulo} (0 a ${rubrica.max}): ${c.descricao}`)
@@ -120,6 +155,14 @@ export async function onRequestPost(context) {
   const apiKey = context.env.GEMINI_API_KEY?.trim();
   if (!apiKey) {
     return buildError("Correção por IA indisponível: a chave do Gemini não está configurada.", 503);
+  }
+
+  if (!isOriginAllowed(context.request, context.env)) {
+    return buildError("Origem não autorizada.", 403);
+  }
+
+  if (await isRateLimited(context.request, context.env)) {
+    return buildError("Muitas correções em pouco tempo. Aguarde um minuto e tente de novo.", 429);
   }
 
   let body;
